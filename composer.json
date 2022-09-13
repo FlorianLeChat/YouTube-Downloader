@@ -1,0 +1,5 @@
+{
+    "require": {
+        "norkunas/youtube-dl-php": "^2.1"
+    }
+}
