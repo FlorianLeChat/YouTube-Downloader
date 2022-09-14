@@ -9,7 +9,7 @@
 
 	// Retrieve the URL and identifier of the video.
 	$url = $_POST["url"] ?? "";
-	$audio = boolval($_POST["url"] ?? "");
+	$audio = boolval($_POST["audio"] ?? "");
 	$identifier = "";
 
 	if (!empty($url))
@@ -33,7 +33,7 @@
 	if (!empty($identifier))
 	{
 		// Checking the cache of previously downloaded files.
-		$file = "output/$identifier.mp3";
+		$file = "output/$identifier." . ($audio ? "mp3" : "webm");
 
 		function sendDownload(string $file): void
 		{
