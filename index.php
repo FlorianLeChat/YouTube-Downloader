@@ -22,6 +22,10 @@
 			// Return of the first result only.
 			$identifier = $matches[1];
 		}
+		else
+		{
+			$output = "Incomplete or invalid YouTube video URL.";
+		}
 	}
 
 	if (!empty($identifier))
