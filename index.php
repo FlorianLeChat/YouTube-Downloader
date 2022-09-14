@@ -125,11 +125,24 @@
 		</style>
 	</head>
 	<body>
+		<!-- Title -->
+		<h1><a href="https://github.com/FlorianLeChat/YouTube-Downloader" target="_blank">📺</a> YouTube Downloader</h1>
+
+		<!-- Submission form -->
+		<p></p>
+
 		<form method="GET">
-			<label for="url">Lien vers la musique/vidéo YouTube :</label>
-			<input type="text" autoComplete="off" spellCheck="false" id="url" name="url" required />
+			<label for="url">URL to the YouTube video:</label>
+			<input type="text" autoComplete="off" spellCheck="false" id="url" name="url" placeholder="https://www.youtube.com/watch?v=..." required />
 
 			<input type="submit" value="Télécharger" />
 		</form>
+
+		<!-- Error output -->
+		<?php if (!empty($output)):  ?>
+			<h3>⚠️ Error output ⚠️</h3>
+
+			<p><?= $output ?></p>
+		<?php endif; ?>
 	</body>
 </html>
