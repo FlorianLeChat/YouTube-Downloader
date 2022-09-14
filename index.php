@@ -5,6 +5,7 @@
 
 	use YoutubeDl\Options;
 	use YoutubeDl\YoutubeDl;
+	use Symfony\Component\Process\ExecutableFinder;
 
 	// Retrieve the URL and identifier of the video.
 	$url = $_GET["url"] ?? "";
@@ -56,8 +57,11 @@
 		}
 
 		// Downloading through YouTube-DL.
+		$finder = new ExecutableFinder();
+		$executable = $finder->find("youtube-dl", null, ["/usr/local/bin"]) ?? $finder->find("yt-dlp", null, ["/usr/local/bin"]);
+
 		$yt = new YoutubeDl();
-		$yt->setBinPath("/usr/local/bin/youtube-dl");
+		$yt->setBinPath($executable ?? "/usr/local/bin/youtube-dl");
 
 		if (!file_exists("output"))
 		{
