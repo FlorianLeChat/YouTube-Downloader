@@ -138,7 +138,11 @@
 		<h1><a href="https://github.com/FlorianLeChat/YouTube-Downloader" target="_blank">📺</a> YouTube Downloader</h1>
 
 		<!-- Submission form -->
-		<p></p>
+		<p>
+			You can download videos (WEBM format) or extract music from them (MP3 format). <strong>Only videos from YouTube are officially supported.</strong><br />
+			The conversion time by the remote server may differ depending on the video duration and the requested download type.<br />
+			Depending on the file size and the speed of your network connection, the download may take several minutes.
+		</p>
 
 		<form method="POST">
 			<label for="url">URL to the YouTube video:</label>
