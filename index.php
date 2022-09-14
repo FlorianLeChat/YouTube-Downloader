@@ -8,7 +8,8 @@
 	use Symfony\Component\Process\ExecutableFinder;
 
 	// Retrieve the URL and identifier of the video.
-	$url = $_GET["url"] ?? "";
+	$url = $_POST["url"] ?? "";
+	$audio = boolval($_POST["url"] ?? "");
 	$identifier = "";
 
 	if (!empty($url))
@@ -73,8 +74,8 @@
 				->output("%(id)s.%(ext)s")
 				->sourceAddress($_SERVER["SERVER_ADDR"])
 				->noPlaylist(true)
-				->extractAudio(true)
-				->audioFormat("mp3")
+				->extractAudio($audio)
+				->audioFormat($audio ? "mp3" : null)
 				->audioQuality("0")
 				->downloadPath("output")
 				->url("https://www.youtube.com/watch?v=$identifier")
@@ -117,11 +118,18 @@
 		<style>
 			input[type = text]
 			{
-				/* Home page input field */
+				/* Input field */
 				width: calc(100% - 0.5rem);
 				display: block;
 				max-width: 20rem;
 				margin-bottom: 1rem;
+			}
+
+			input[type = submit]
+			{
+				/* Submit button */
+				display: block;
+				margin-top: 1rem;
 			}
 		</style>
 	</head>
@@ -132,11 +140,14 @@
 		<!-- Submission form -->
 		<p></p>
 
-		<form method="GET">
+		<form method="POST">
 			<label for="url">URL to the YouTube video:</label>
 			<input type="text" autoComplete="off" spellCheck="false" id="url" name="url" placeholder="https://www.youtube.com/watch?v=..." required />
 
-			<input type="submit" value="Télécharger" />
+			<label for="audio">Audio only?</label>
+			<input type="checkbox" id="audio" name="audio" />
+
+			<input type="submit" value="Download" />
 		</form>
 
 		<!-- Error output -->
