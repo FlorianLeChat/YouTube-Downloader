@@ -1,58 +1,46 @@
-<?php
-	//
-	// Convertisseur de vidéos YouTube sous format MP3.
-	// Source : https://github.com/norkunas/youtube-dl-php
-	//
+<!DOCTYPE html>
 
-	declare(strict_types = 1);
+<?php
 	require(__DIR__ . "/vendor/autoload.php");
 
 	use YoutubeDl\Options;
 	use YoutubeDl\YoutubeDl;
 
-	// Informations de débogage.
-	ini_set("display_errors", true);
-	ini_set("display_startup_errors", true);
-
-	error_reporting(E_ALL);
-
-	// Fonction pour envoyer un téléchargement à l'utilisateur.
-	function sendDownload(string $file): void
-	{
-		header("Content-Description: File Transfer");
-		header("Content-Type: application/octet-stream");
-		header("Content-Disposition: attachment; filename=\"" . basename($file) . "\"");
-		header("Expires: 0");
-		header("Cache-Control: must-revalidate");
-		header("Pragma: public");
-		header("Content-Length: " . filesize($file));
-
-		readfile($file);
-	}
-
-	// On vérifie d'abord si une adresse URL a été renseignée ou non.
+	// Retrieve the URL and identifier of the video.
 	$url = $_GET["url"] ?? "";
 	$identifier = "";
 
 	if (!empty($url))
 	{
-		// On effectue une recherche dans l'URL pour chercher l'identifiant
-		//	unique de la vidéo.
+		// Looking for the unique identifier in the URL.
 		$matches = [];
 
 		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $matches);
 
 		if (count($matches) > 0)
 		{
-			// Si la recherche semble correcte, on récupère le premier résultat.
+			// Return of the first result only.
 			$identifier = $matches[1];
 		}
 	}
 
 	if (!empty($identifier))
 	{
-		// On vérifie si une copie en cache est déjà présente.
+		// Checking the cache of previously downloaded files.
 		$file = "output/$identifier.mp3";
+
+		function sendDownload(string $file): void
+		{
+			header("Content-Description: File Transfer");
+			header("Content-Type: application/octet-stream");
+			header("Content-Disposition: attachment; filename=\"" . basename($file) . "\"");
+			header("Expires: 0");
+			header("Cache-Control: must-revalidate");
+			header("Pragma: public");
+			header("Content-Length: " . filesize($file));
+
+			readfile($file);
+		}
 
 		if (file_exists($file))
 		{
@@ -60,14 +48,14 @@
 			exit();
 		}
 
-		// Si ce n'est pas le cas, on lance le téléchargement.
+		// Downloading through YouTube-DL.
 		$yt = new YoutubeDl();
 		$yt->setBinPath("/usr/local/bin/yt-dlp");
 
 		$collection = $yt->download(
 			Options::create()
 				->output("%(id)s.%(ext)s")
-				->sourceAddress($_SERVER["SERVER_ADDR"]) // https://github.com/ytdl-org/youtube-dl#http-error-429-too-many-requests-or-402-payment-required
+				->sourceAddress($_SERVER["SERVER_ADDR"])
 				->noPlaylist(true)
 				->extractAudio(true)
 				->audioFormat("mp3")
@@ -76,18 +64,15 @@
 				->url("https://www.youtube.com/watch?v=$identifier")
 		);
 
-		// Une fois le téléchargement, on itére alors à travers toutes les
-		//	vidéos et musiques téléchargées.
+		// Sends downloaded files to the user.
 		foreach ($collection->getVideos() as $video)
 		{
 			if ($video->getError() !== null)
 			{
-				// Si une erreur survient, on l'indique à l'utilisateur.
-				echo("Erreur de téléchargement : {$video->getError()}.");
+				$output = $video->getError();
 			}
 			else
 			{
-				// Sinon, on lance enfin le téléchargement du fichier.
 				sendDownload($file);
 			}
 		}
