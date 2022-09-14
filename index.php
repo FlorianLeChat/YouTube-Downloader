@@ -45,7 +45,11 @@
 			header("Pragma: public");
 			header("Content-Length: " . filesize($file));
 
-			ob_clean();
+			if (ob_get_level())
+			{
+				ob_end_clean();
+			}
+
 			flush();
 
 			readfile($file);
