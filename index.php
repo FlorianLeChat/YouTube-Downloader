@@ -50,7 +50,7 @@
 
 		// Downloading through YouTube-DL.
 		$yt = new YoutubeDl();
-		$yt->setBinPath("/usr/local/bin/yt-dlp");
+		$yt->setBinPath("/usr/local/bin/youtube-dl");
 
 		$collection = $yt->download(
 			Options::create()
