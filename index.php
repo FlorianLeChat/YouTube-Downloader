@@ -56,6 +56,11 @@
 		$yt = new YoutubeDl();
 		$yt->setBinPath("/usr/local/bin/youtube-dl");
 
+		if (!file_exists("output"))
+		{
+			mkdir("output");
+		}
+
 		$collection = $yt->download(
 			Options::create()
 				->output("%(id)s.%(ext)s")
