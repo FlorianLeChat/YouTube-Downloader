@@ -7,6 +7,8 @@
 	use YoutubeDl\YoutubeDl;
 	use Symfony\Component\Process\ExecutableFinder;
 
+	const OUTPUT_FOLDER = "output";
+
 	// Retrieve the URL and identifier of the video.
 	$url = $_POST["url"] ?? "";
 	$audio = boolval($_POST["audio"] ?? "");
@@ -32,69 +34,41 @@
 
 	if (!empty($identifier))
 	{
-		// Checking the cache of previously downloaded files.
-		$file = "output/$identifier." . ($audio ? "mp3" : "webm");
-
-		function sendDownload(string $file): void
-		{
-			header("Content-Description: File Transfer");
-			header("Content-Type: application/octet-stream");
-			header("Content-Disposition: attachment; filename=\"" . basename($file) . "\"");
-			header("Expires: 0");
-			header("Cache-Control: must-revalidate");
-			header("Pragma: public");
-			header("Content-Length: " . filesize($file));
-
-			if (ob_get_level())
-			{
-				ob_end_clean();
-			}
-
-			flush();
-
-			readfile($file);
-		}
-
-		if (file_exists($file))
-		{
-			sendDownload($file);
-			exit();
-		}
-
 		// Downloading through YouTube-DL.
-		$finder = new ExecutableFinder();
-		$executable = $finder->find("youtube-dl", null, ["/usr/local/bin"]) ?? $finder->find("yt-dlp", null, ["/usr/local/bin"]);
+		$file = OUTPUT_FOLDER . "/$identifier." . ($audio ? "mp3" : "webm");
 
-		$yt = new YoutubeDl();
-		$yt->setBinPath($executable ?? "/usr/local/bin/youtube-dl");
-
-		if (!file_exists("output"))
+		if (!file_exists(OUTPUT_FOLDER))
 		{
-			mkdir("output");
+			mkdir(OUTPUT_FOLDER);
 		}
 
-		$collection = $yt->download(
-			Options::create()
-				->output("%(id)s.%(ext)s")
-				->sourceAddress($_SERVER["SERVER_ADDR"])
-				->noPlaylist(true)
-				->extractAudio($audio)
-				->audioFormat($audio ? "mp3" : null)
-				->audioQuality("0")
-				->downloadPath("output")
-				->url("https://www.youtube.com/watch?v=$identifier")
-		);
-
-		// Sends downloaded files to the user.
-		foreach ($collection->getVideos() as $video)
+		if (!file_exists($file))
 		{
-			if ($video->getError() !== null)
+			$finder = new ExecutableFinder();
+			$executable = $finder->find("youtube-dl", null, ["/usr/local/bin"]) ?? $finder->find("yt-dlp", null, ["/usr/local/bin"]);
+
+			$yt = new YoutubeDl();
+			$yt->setBinPath($executable ?? "/usr/local/bin/youtube-dl");
+
+			$collection = $yt->download(
+				Options::create()
+					->output("%(id)s.%(ext)s")
+					->sourceAddress($_SERVER["SERVER_ADDR"])
+					->noPlaylist(true)
+					->extractAudio($audio)
+					->audioFormat($audio ? "mp3" : null)
+					->audioQuality("0")
+					->downloadPath(OUTPUT_FOLDER)
+					->url("https://www.youtube.com/watch?v=$identifier")
+			);
+
+			foreach ($collection->getVideos() as $video)
 			{
-				$output = $video->getError();
-			}
-			else
-			{
-				sendDownload($file);
+				if ($video->getError() !== null)
+				{
+					$output = $video->getError();
+					break;
+				}
 			}
 		}
 	}
@@ -137,7 +111,7 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body onload="document.querySelector('a[download]')?.click()">
 		<!-- Title -->
 		<h1><a href="https://github.com/FlorianLeChat/YouTube-Downloader" target="_blank">📺</a> YouTube Downloader</h1>
 
@@ -157,6 +131,11 @@
 
 			<input type="submit" value="Download" />
 		</form>
+
+		<!-- Download link -->
+		<?php if (!empty($file)):  ?>
+			<a href="<?= $file ?>" download></a>
+		<?php endif; ?>
 
 		<!-- Error output -->
 		<?php if (!empty($output)):  ?>
