@@ -56,6 +56,7 @@
 					->sourceAddress($_SERVER["SERVER_ADDR"])
 					->noPlaylist(true)
 					->extractAudio($audio)
+					->recodeVideo($audio ? null : "webm")
 					->audioFormat($audio ? "mp3" : null)
 					->audioQuality("0")
 					->downloadPath(OUTPUT_FOLDER)
