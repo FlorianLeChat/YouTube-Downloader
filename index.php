@@ -17,6 +17,7 @@
 	if (!empty($video_url))
 	{
 		// Looking for the unique identifier in the URL.
+		// Source: https://gist.github.com/ghalusa/6c7f3a00fd2383e5ef33
 		$matches = [];
 
 		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $matches);
@@ -34,14 +35,34 @@
 
 	if (!empty($video_id))
 	{
-		// Downloading through YouTube-DL.
-		$download_path = OUTPUT_FOLDER . "/$video_id." . ($extract_audio ? "mp3" : "webm");
+		$download_path = "";
 
 		if (!file_exists(OUTPUT_FOLDER))
 		{
+			// Create the output folder if it does not exist.
 			mkdir(OUTPUT_FOLDER);
 		}
+		else
+		{
+			// Attempt to retrieve a previously downloaded video.
+			$resolutions = file_get_contents(OUTPUT_FOLDER . "/resolutions.json");
 
+			if ($resolutions)
+			{
+				$resolutions = json_decode($resolutions, true);
+
+				foreach ($resolutions as $download_id => $download_file)
+				{
+					if ($download_id === $video_id)
+					{
+						$download_path = $download_file;
+						break;
+					}
+				}
+			}
+		}
+
+		// Checks if a file is already saved or if the video needs to be downloaded.
 		if (!file_exists($download_path))
 		{
 			$downloader_path = new ExecutableFinder();
@@ -50,7 +71,7 @@
 			$youtube_downloader = new YoutubeDl();
 			$youtube_downloader->setBinPath($executable_path ?? "/usr/local/bin/youtube-dl");
 
-			$collection = $youtube_downloader->download(
+			$download_stack = $youtube_downloader->download(
 				Options::create()
 					->output("%(id)s.%(ext)s")
 					->sourceAddress($_SERVER["SERVER_ADDR"])
@@ -62,12 +83,21 @@
 					->url("https://www.youtube.com/watch?v=$video_id")
 			);
 
-			foreach ($collection->getVideos() as $video)
+			foreach ($download_stack->getVideos() as $video)
 			{
 				if ($video->getError() !== null)
 				{
+					// Error while downloading/converting.
 					$video_output = $video->getError();
-					break;
+				}
+				else
+				{
+					// Save the downloaded file.
+					$resolutions[$video->getDisplayId()] = $video->getFilename();
+
+					file_put_contents(OUTPUT_FOLDER . "/resolutions.json", json_encode($resolutions));
+
+					$download_path = $video->getFilename();
 				}
 			}
 		}
