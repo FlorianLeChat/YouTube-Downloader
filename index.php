@@ -10,64 +10,64 @@
 	const OUTPUT_FOLDER = "output";
 
 	// Retrieve the URL and identifier of the video.
-	$url = $_POST["url"] ?? "";
-	$audio = boolval($_POST["audio"] ?? "");
-	$identifier = "";
+	$video_id = "";
+	$video_url = $_POST["url"] ?? "";
+	$extract_audio = boolval($_POST["audio"] ?? "");
 
-	if (!empty($url))
+	if (!empty($video_url))
 	{
 		// Looking for the unique identifier in the URL.
 		$matches = [];
 
-		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $matches);
+		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $matches);
 
 		if (count($matches) > 0)
 		{
 			// Return of the first result only.
-			$identifier = $matches[1];
+			$video_id = $matches[1];
 		}
 		else
 		{
-			$output = "Incomplete or invalid YouTube video URL.";
+			$video_output = "Incomplete or invalid YouTube video URL.";
 		}
 	}
 
-	if (!empty($identifier))
+	if (!empty($video_id))
 	{
 		// Downloading through YouTube-DL.
-		$file = OUTPUT_FOLDER . "/$identifier." . ($audio ? "mp3" : "webm");
+		$download_path = OUTPUT_FOLDER . "/$video_id." . ($extract_audio ? "mp3" : "webm");
 
 		if (!file_exists(OUTPUT_FOLDER))
 		{
 			mkdir(OUTPUT_FOLDER);
 		}
 
-		if (!file_exists($file))
+		if (!file_exists($download_path))
 		{
-			$finder = new ExecutableFinder();
-			$executable = $finder->find("youtube-dl", null, ["/usr/local/bin"]) ?? $finder->find("yt-dlp", null, ["/usr/local/bin"]);
+			$downloader_path = new ExecutableFinder();
+			$executable_path = $downloader_path->find("youtube-dl", null, ["/usr/local/bin"]) ?? $downloader_path->find("yt-dlp", null, ["/usr/local/bin"]);
 
-			$yt = new YoutubeDl();
-			$yt->setBinPath($executable ?? "/usr/local/bin/youtube-dl");
+			$youtube_downloader = new YoutubeDl();
+			$youtube_downloader->setBinPath($executable_path ?? "/usr/local/bin/youtube-dl");
 
-			$collection = $yt->download(
+			$collection = $youtube_downloader->download(
 				Options::create()
 					->output("%(id)s.%(ext)s")
 					->sourceAddress($_SERVER["SERVER_ADDR"])
 					->noPlaylist(true)
-					->extractAudio($audio)
-					->recodeVideo($audio ? null : "webm")
-					->audioFormat($audio ? "mp3" : null)
+					->extractAudio($extract_audio)
+					->recodeVideo($extract_audio ? null : "webm")
+					->audioFormat($extract_audio ? "mp3" : null)
 					->audioQuality("0")
 					->downloadPath(OUTPUT_FOLDER)
-					->url("https://www.youtube.com/watch?v=$identifier")
+					->url("https://www.youtube.com/watch?v=$video_id")
 			);
 
 			foreach ($collection->getVideos() as $video)
 			{
 				if ($video->getError() !== null)
 				{
-					$output = $video->getError();
+					$video_output = $video->getError();
 					break;
 				}
 			}
@@ -134,15 +134,15 @@
 		</form>
 
 		<!-- Download link -->
-		<?php if (!empty($file)):  ?>
-			<a href="<?= $file ?>" download></a>
+		<?php if (!empty($download_path)):  ?>
+			<a href="<?= $download_path ?>" download></a>
 		<?php endif; ?>
 
 		<!-- Error output -->
-		<?php if (!empty($output)):  ?>
+		<?php if (!empty($video_output)):  ?>
 			<h3>⚠️ Error output ⚠️</h3>
 
-			<p><?= $output ?></p>
+			<p><?= $video_output ?></p>
 		<?php endif; ?>
 	</body>
 </html>
