@@ -75,7 +75,7 @@
 
 			$download_stack = $youtube_downloader->download(
 				Options::create()
-					->output("%(id)s.%(ext)s")
+					->output("%(title)s-%(id)s.%(ext)s")
 					->sourceAddress($_SERVER["SERVER_ADDR"])
 					->noPlaylist(true)
 					->extractAudio($extract_audio)
