@@ -35,23 +35,25 @@
 
 	if (!empty($video_id))
 	{
+		$cache_folder = OUTPUT_FOLDER . "/" . ($extract_audio ? "audios" : "videos");
 		$download_path = "";
 
 		if (!file_exists(OUTPUT_FOLDER))
 		{
-			// Create the output folder if it does not exist.
-			mkdir(OUTPUT_FOLDER);
+			// Create the output folders if it does not exist.
+			mkdir(OUTPUT_FOLDER . "/videos");
+			mkdir(OUTPUT_FOLDER . "/audios");
 		}
 		else
 		{
 			// Attempt to retrieve a previously downloaded video.
-			$resolutions = file_get_contents(OUTPUT_FOLDER . "/resolutions.json");
+			$cache_resolver = file_get_contents("$cache_folder.json");
 
-			if ($resolutions)
+			if ($cache_resolver)
 			{
-				$resolutions = json_decode($resolutions, true);
+				$cache_resolver = json_decode($cache_resolver, true);
 
-				foreach ($resolutions as $download_id => $download_file)
+				foreach ($cache_resolver as $download_id => $download_file)
 				{
 					if ($download_id === $video_id)
 					{
@@ -79,7 +81,7 @@
 					->extractAudio($extract_audio)
 					->audioFormat($extract_audio ? "mp3" : null)
 					->audioQuality("0")
-					->downloadPath(OUTPUT_FOLDER)
+					->downloadPath($cache_folder)
 					->url("https://www.youtube.com/watch?v=$video_id")
 			);
 
@@ -93,9 +95,9 @@
 				else
 				{
 					// Save the downloaded file.
-					$resolutions[$video->getDisplayId()] = $video->getFilename();
+					$cache_resolver[$video->getDisplayId()] = $video->getFilename();
 
-					file_put_contents(OUTPUT_FOLDER . "/resolutions.json", json_encode($resolutions));
+					file_put_contents("$cache_folder.json", json_encode($cache_resolver));
 
 					$download_path = $video->getFilename();
 				}
