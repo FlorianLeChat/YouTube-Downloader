@@ -106,12 +106,12 @@
 	}
 ?>
 
-<html lang="en">
+<html lang="en" dir="auto">
 	<head>
 		<!-- Document metadata -->
 		<meta charset="utf-8" />
 		<meta name="author" content="Florian Trayon" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
 		<!-- Document title -->
 		<title>YouTube Downloader</title>
