@@ -1,6 +1,16 @@
 version: 2
 updates:
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Check for updates managed by GitHub Actions once a month
+      interval: "monthly"
+
+  # Maintain dependencies for Composer
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
+      # Check for updates managed by Composer once a month
       interval: "monthly"
