@@ -8,7 +8,7 @@ Ce petit site Internet permet de fournir une interface simple et fonctionnelle a
 
 <ins>Voici les exigences pour exécuter le site Internet</ins> :
 * HTML **5** / CSS **3**
-* PHP **8.1+**
+* PHP **8.2+**
 * JavaScript (*ES6*)
 
 ___
@@ -21,7 +21,7 @@ This simple website provides a convenient and functional interface for people lo
 
 <ins>Here are the requirements to run the website</ins>:
 * HTML **5** / CSS **3**
-* PHP **8.1+**
+* PHP **8.2+**
 * JavaScript (*ES6*)
 
 ![image](https://user-images.githubusercontent.com/26360935/190904189-22ef0ab2-5f48-4b80-827d-2d44c0498453.png)
