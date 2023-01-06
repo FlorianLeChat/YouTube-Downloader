@@ -1,0 +1,8 @@
+**/.git
+**/.gitignore
+**/.editorconfig
+**/.dockerignore
+**/.gitattributes
+**/LICENSE
+**/Dockerfile
+**/*.md
