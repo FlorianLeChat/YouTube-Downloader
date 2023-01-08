@@ -2,13 +2,11 @@
 
 <?php
 	require(__DIR__ . "/vendor/autoload.php");
+	require(__DIR__ . "/config.php");
 
 	use YoutubeDl\Options;
 	use YoutubeDl\YoutubeDl;
 	use Symfony\Component\Process\ExecutableFinder;
-
-	const NO_KEEP_FILES = false;
-	const OUTPUT_FOLDER = "output";
 
 	// Retrieve the URL and identifier of the video.
 	$video_id = "";
@@ -42,7 +40,7 @@
 			mkdir(OUTPUT_FOLDER);
 		}
 
-		if (NO_KEEP_FILES)
+		if (DONT_KEEP_FILES)
 		{
 			// Delete all files in the output folder before downloading a new video.
 			$files = glob(OUTPUT_FOLDER . "/*");
@@ -69,9 +67,10 @@
 
 			$download_stack = $youtube_downloader->download(
 				Options::create()
-					->output("%(title)s-%(id)s.%(ext)s")
+					->output(OUTPUT_FORMAT)
 					->sourceAddress($_SERVER["SERVER_ADDR"])
 					->noPlaylist(true)
+					->maxFileSize(MAX_FILE_SIZE)
 					->keepVideo($extract_audio)
 					->extractAudio($extract_audio)
 					->audioFormat($extract_audio ? "mp3" : null)
