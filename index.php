@@ -72,6 +72,7 @@
 					->output("%(title)s-%(id)s.%(ext)s")
 					->sourceAddress($_SERVER["SERVER_ADDR"])
 					->noPlaylist(true)
+					->keepVideo($extract_audio)
 					->extractAudio($extract_audio)
 					->audioFormat($extract_audio ? "mp3" : null)
 					->audioQuality("0")
