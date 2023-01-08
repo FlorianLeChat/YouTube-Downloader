@@ -7,6 +7,7 @@
 	use YoutubeDl\YoutubeDl;
 	use Symfony\Component\Process\ExecutableFinder;
 
+	const NO_KEEP_FILES = false;
 	const OUTPUT_FOLDER = "output";
 
 	// Retrieve the URL and identifier of the video.
@@ -40,10 +41,17 @@
 			// Create the output folder if it does not exist.
 			mkdir(OUTPUT_FOLDER);
 		}
-		{
 
+		if (NO_KEEP_FILES)
+		{
+			// Delete all files in the output folder before downloading a new video.
+			$files = glob(OUTPUT_FOLDER . "/*");
+
+			foreach ($files as $file)
 			{
+				if (is_file($file))
 				{
+					unlink($file);
 				}
 			}
 		}
