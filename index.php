@@ -131,6 +131,13 @@
 				display: block;
 				margin-top: 1rem;
 			}
+
+			a[download]
+			{
+				/* Download link */
+				display: inline-block;
+				margin-top: 1rem;
+			}
 		</style>
 	</head>
 	<body onload="document.querySelector('a[download]')?.click()">
@@ -156,7 +163,7 @@
 
 		<!-- Download link -->
 		<?php if (!empty($download_path)):  ?>
-			<a href="<?= $download_path ?>" download></a>
+			📥 <a href="<?= $download_path ?>" download>Download doesn't start by itself? Please click here</a>.
 		<?php endif; ?>
 
 		<!-- Error output -->
