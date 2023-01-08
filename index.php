@@ -139,9 +139,9 @@
 
 		<!-- Submission form -->
 		<p>
-			You can download videos (WEBM format) or extract music from them (MP3 format). <strong>Only videos from YouTube are officially supported.</strong><br />
+			You can download videos (<code>WEBM</code> format) or extract music from them (<code>MP3</code> format). <strong>Only videos from YouTube are supported.</strong><br />
 			The conversion time by the remote server may differ depending on the video duration and the requested download type.<br />
-			Depending on the file size and the speed of your network connection, the download may take several minutes.
+			Depending on the file size (<strong><?= MAX_FILE_SIZE; ?>B max</strong>) and the speed of your network connection, the download may take several minutes.
 		</p>
 
 		<form method="POST">
