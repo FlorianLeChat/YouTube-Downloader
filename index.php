@@ -35,36 +35,22 @@
 
 	if (!empty($video_id))
 	{
-		$cache_folder = OUTPUT_FOLDER . "/" . ($extract_audio ? "audios" : "videos");
-		$download_path = "";
-
 		if (!file_exists(OUTPUT_FOLDER))
 		{
-			// Create the output folders if it does not exist.
-			mkdir(OUTPUT_FOLDER . "/videos");
-			mkdir(OUTPUT_FOLDER . "/audios");
+			// Create the output folder if it does not exist.
+			mkdir(OUTPUT_FOLDER);
 		}
-		else
 		{
-			// Attempt to retrieve a previously downloaded video.
-			$cache_resolver = file_get_contents("$cache_folder.json");
 
-			if ($cache_resolver)
 			{
-				$cache_resolver = json_decode($cache_resolver, true);
-
-				foreach ($cache_resolver as $download_id => $download_file)
 				{
-					if ($download_id === $video_id)
-					{
-						$download_path = $download_file;
-						break;
-					}
 				}
 			}
 		}
 
 		// Checks if a file is already saved or if the video needs to be downloaded.
+		$download_path = "";
+
 		if (!file_exists($download_path))
 		{
 			$downloader_path = new ExecutableFinder();
@@ -81,7 +67,7 @@
 					->extractAudio($extract_audio)
 					->audioFormat($extract_audio ? "mp3" : null)
 					->audioQuality("0")
-					->downloadPath($cache_folder)
+					->downloadPath(OUTPUT_FOLDER)
 					->url("https://www.youtube.com/watch?v=$video_id")
 			);
 
@@ -95,10 +81,6 @@
 				else
 				{
 					// Save the downloaded file.
-					$cache_resolver[$video->getDisplayId()] = $video->getFilename();
-
-					file_put_contents("$cache_folder.json", json_encode($cache_resolver));
-
 					$download_path = $video->getFilename();
 				}
 			}
