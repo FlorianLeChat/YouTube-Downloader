@@ -1,0 +1,75 @@
+/* Input field */
+input[type = text]
+{
+	width: calc(100% - 0.5rem);
+	display: block;
+	max-width: 20rem;
+	margin-bottom: 1rem;
+}
+
+/* Submit button */
+input[type = submit]
+{
+	display: block;
+	margin-top: 1rem;
+}
+
+/* Download link */
+a[download]
+{
+	display: inline-block;
+	margin-top: 1rem;
+}
+
+/* Animated GitHub repository icon */
+/* Source: https://github.com/tholman/github-corners/blob/786d845dbea7f36c1e6c82c59b30dfa4d2d31f23/css/corner.css */
+body > a:hover path:nth-of-type(2)
+{
+    animation: octocat-wave 560ms ease-in-out;
+}
+
+@media (max-width: 768px)
+{
+	body > a:hover path:nth-of-type(2)
+	{
+		animation: none;
+    }
+
+    body > a path:nth-of-type(2)
+	{
+        animation: octocat-wave 560ms ease-in-out;
+    }
+}
+
+@keyframes octocat-wave
+{
+    0%
+	{
+        transform: rotate(0deg);
+    }
+
+    20%
+	{
+        transform: rotate(-25deg);
+    }
+
+    40%
+	{
+        transform: rotate(10deg);
+    }
+
+    60%
+	{
+        transform: rotate(-25deg);
+    }
+
+    80%
+	{
+        transform: rotate(10deg);
+    }
+
+    100%
+	{
+        transform: rotate(0deg);
+    }
+}
