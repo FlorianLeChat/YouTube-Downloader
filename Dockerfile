@@ -11,8 +11,16 @@ RUN apk add python3 py3-pip ffmpeg
 # Install yt-dl (patched version)
 RUN python3 -m pip install https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
-# Copy the website files to the container
-COPY ./ /app
+# Set the working directory to the website files
+WORKDIR /app
 
-# Install Composer and run it to install the dependencies
-RUN composer install -d /app
+# Copy only files required to install dependencies
+COPY composer*.json ./
+
+# Install all dependencies
+# Use cache mount to speed up installation of existing dependencies
+RUN --mount=type=cache,target=/app/.composer \
+	composer install
+
+# Copy the remaining files AFTER installing dependencies
+COPY . .
