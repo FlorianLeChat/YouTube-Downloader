@@ -1,5 +1,4 @@
 *.md
-.env
 .git*
 .dockerignore
 .editorconfig
