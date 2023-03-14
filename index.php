@@ -9,22 +9,26 @@
 	use Symfony\Component\Process\ExecutableFinder;
 
 	// Retrieve the URL and identifier of the video.
-	$video_id = "";
-	$video_url = $_POST["url"] ?? "";
+	$videoId = "";
+	$videoUrl = $_POST["url"] ?? "";
+	$audioFormat = $_POST["audio-format"] ?? "best";
+	$videoFormat = $_POST["video-format"] ?? "best";
+	$maxFileSize = $_POST["max-filesize"] ?? MAX_FILE_SIZE;
+	$audioQuality = $_POST["audio-quality"] ?? "0";
 	$extract_audio = boolval($_POST["audio"] ?? "");
 
-	if (!empty($video_url))
+	if (!empty($videoUrl))
 	{
 		// Looking for the unique identifier in the URL.
 		// Source: https://gist.github.com/ghalusa/6c7f3a00fd2383e5ef33
 		$matches = [];
 
-		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $matches);
+		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videoUrl, $matches);
 
 		if (count($matches) > 0)
 		{
 			// Return of the first result only.
-			$video_id = $matches[1];
+			$videoId = $matches[1];
 		}
 		else
 		{
@@ -32,7 +36,7 @@
 		}
 	}
 
-	if (!empty($video_id))
+	if (!empty($videoId))
 	{
 		if (!file_exists(OUTPUT_FOLDER))
 		{
@@ -67,16 +71,16 @@
 
 			$download_stack = $youtube_downloader->download(
 				Options::create()
+					->url("https://www.youtube.com/watch?v=$videoId")
+					->format($extract_audio ? $audioFormat : $videoFormat)
 					->output(OUTPUT_FORMAT)
-					->sourceAddress($_SERVER["SERVER_ADDR"])
-					->noPlaylist(true)
-					->maxFileSize(MAX_FILE_SIZE)
 					->keepVideo($extract_audio)
+					->noPlaylist(true)
+					->maxFileSize($maxFileSize)
 					->extractAudio($extract_audio)
-					->audioFormat($extract_audio ? "mp3" : null)
-					->audioQuality("0")
+					->audioQuality($audioQuality)
 					->downloadPath(OUTPUT_FOLDER)
-					->url("https://www.youtube.com/watch?v=$video_id")
+					->sourceAddress($_SERVER["SERVER_ADDR"])
 			);
 
 			foreach ($download_stack->getVideos() as $video)
@@ -144,6 +148,46 @@
 
 			<label for="audio">Audio only?</label>
 			<input type="checkbox" id="audio" name="audio" />
+
+			<details>
+				<summary>Advanced options</summary>
+
+				<p>
+					If you don't know what you are doing, leave the default settings.<br />
+					For more information, please refer to the YouTube-DL <a href="https://github.com/ytdl-org/youtube-dl#format-selection" target="_blank">documentation</a>.
+				</p>
+
+				<label for="video-format">Video format (this only covers videos)</label>
+				<select id="video-format" name="video-format">
+					<option value="best">Best (default)</option>
+					<option value="aac">AAC</option>
+					<option value="flv">FLV</option>
+					<option value="m4a">M4A</option>
+					<option value="mp3">MP3</option>
+					<option value="mp4">MP4</option>
+					<option value="ogg">OGG</option>
+					<option value="wav">WAV</option>
+					<option value="webm">WEBM</option>
+				</select>
+
+				<label for="audio-format">Audio-only format (does not apply to videos)</label>
+				<select id="audio-format" name="audio-format">
+					<option value="best">Best (default)</option>
+					<option value="aac">AAC</option>
+					<option value="flac">FLAC</option>
+					<option value="mp3">MP3</option>
+					<option value="m4a">M4A</option>
+					<option value="opus">Opus</option>
+					<option value="vorbis">Vorbis</option>
+					<option value="wav">WAV</option>
+				</select>
+
+				<label for="audio-quality">Audio quality (0 = better, 9 = worse)</label>
+				<input type="range" id="audio-quality" name="audio-quality" min="0" max="9" value="5" step="1">
+
+				<label for="max-filesize">Max file size (e.g. 50k or 44.6m)</label>
+				<input type="text" id="max-filesize" name="max-filesize" placeholder="50k or 44.6m" />
+			</details>
 
 			<input type="submit" value="Download" />
 		</form>
