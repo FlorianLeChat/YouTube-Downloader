@@ -11,10 +11,10 @@
 	// Retrieve the URL and identifier of the video.
 	$videoId = "";
 	$videoUrl = $_POST["url"] ?? "";
-	$audioFormat = $_POST["audio-format"] ?? "best";
-	$videoFormat = $_POST["video-format"] ?? "best";
+	$audioFormat = in_array($_POST["audio-format"], array_keys(AVAILABLE_AUDIO_FORMATS)) ? $_POST["audio-format"] : "best";
+	$videoFormat = in_array($_POST["video-format"], array_keys(AVAILABLE_VIDEO_FORMATS)) ? $_POST["video-format"] : "best";
 	$maxFileSize = $_POST["max-filesize"] ?? MAX_FILE_SIZE;
-	$audioQuality = $_POST["audio-quality"] ?? "0";
+	$audioQuality = strval(max(0, min(9, $_POST["audio-quality"])));
 	$extract_audio = boolval($_POST["audio"] ?? "");
 
 	if (!empty($videoUrl))
@@ -157,29 +157,24 @@
 					For more information, please refer to the YouTube-DL <a href="https://github.com/ytdl-org/youtube-dl#format-selection" target="_blank">documentation</a>.
 				</p>
 
-				<label for="video-format">Video format (this only covers videos)</label>
+				<label for="video-format">Video formats (this also covers the video audio)</label>
 				<select id="video-format" name="video-format">
-					<option value="best">Best (default)</option>
-					<option value="aac">AAC</option>
-					<option value="flv">FLV</option>
-					<option value="m4a">M4A</option>
-					<option value="mp3">MP3</option>
-					<option value="mp4">MP4</option>
-					<option value="ogg">OGG</option>
-					<option value="wav">WAV</option>
-					<option value="webm">WEBM</option>
+					<?php
+						foreach (AVAILABLE_VIDEO_FORMATS as $key => $value)
+						{
+							echo("<option value=\"" . $key . "\">$value</option>");
+						}
+					?>
 				</select>
 
-				<label for="audio-format">Audio-only format (does not apply to videos)</label>
+				<label for="audio-format">Audio-only formats</label>
 				<select id="audio-format" name="audio-format">
-					<option value="best">Best (default)</option>
-					<option value="aac">AAC</option>
-					<option value="flac">FLAC</option>
-					<option value="mp3">MP3</option>
-					<option value="m4a">M4A</option>
-					<option value="opus">Opus</option>
-					<option value="vorbis">Vorbis</option>
-					<option value="wav">WAV</option>
+					<?php
+						foreach (AVAILABLE_AUDIO_FORMATS as $key => $value)
+						{
+							echo("<option value=\"" . $key . "\">$value</option>");
+						}
+					?>
 				</select>
 
 				<label for="audio-quality">Audio quality (0 = better, 9 = worse)</label>
