@@ -14,6 +14,19 @@ input[type = submit]
 	margin-top: 1rem;
 }
 
+/* Advanced options */
+details
+{
+	margin: 1rem;
+}
+
+/* Advanced options inputs */
+select, input[type = range]
+{
+	display: block;
+	margin-bottom: 1rem;
+}
+
 /* Download link */
 a[download]
 {
