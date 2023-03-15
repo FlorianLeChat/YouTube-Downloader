@@ -155,6 +155,7 @@
 				<p>
 					If you don't know what you are doing, leave the default settings.<br />
 					For more information, please refer to the YouTube-DL <a href="https://github.com/ytdl-org/youtube-dl#format-selection" target="_blank">documentation</a>.
+					Based on the indicated criteria, there may be no download or the file downloaded may not have the specified parameters, this is the normal behavior of YouTube-DL.
 				</p>
 
 				<label for="video-format">Video formats (this also covers the video audio)</label>
