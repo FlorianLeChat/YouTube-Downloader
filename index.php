@@ -182,8 +182,8 @@
 				<label for="audio-quality">Audio quality (0 = better, 9 = worse)</label>
 				<input type="range" id="audio-quality" name="audio-quality" min="0" max="9" value="5" step="1">
 
-				<label for="max-filesize">Max file size (e.g. 50k or 44.6m)</label>
-				<input type="text" id="max-filesize" name="max-filesize" placeholder="50k or 44.6m" />
+				<label for="max-filesize">Max file size (e.g. 50K or 44.6M)</label>
+				<input type="text" id="max-filesize" name="max-filesize" value=<?= MAX_FILE_SIZE ?> placeholder="50k or 44.6m" />
 			</details>
 
 			<input type="submit" value="Download" />
