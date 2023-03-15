@@ -11,11 +11,11 @@
 	// Retrieve the URL and identifier of the video.
 	$videoId = "";
 	$videoUrl = $_POST["url"] ?? "";
-	$audioFormat = in_array($_POST["audio-format"], array_keys(AVAILABLE_AUDIO_FORMATS)) ? $_POST["audio-format"] : "best";
-	$videoFormat = in_array($_POST["video-format"], array_keys(AVAILABLE_VIDEO_FORMATS)) ? $_POST["video-format"] : "best";
+	$audioFormat = in_array($_POST["audio-format"] ?? "", array_keys(AVAILABLE_AUDIO_FORMATS)) ? $_POST["audio-format"] : "best";
+	$videoFormat = in_array($_POST["video-format"] ?? "", array_keys(AVAILABLE_VIDEO_FORMATS)) ? $_POST["video-format"] : "best";
 	$maxFileSize = $_POST["max-filesize"] ?? MAX_FILE_SIZE;
-	$audioQuality = strval(max(0, min(9, $_POST["audio-quality"])));
-	$extract_audio = boolval($_POST["audio"] ?? "");
+	$audioQuality = strval(max(0, min(9, $_POST["audio-quality"] ?? 5)));
+	$extractAudio = boolval($_POST["audio"] ?? "");
 
 	if (!empty($videoUrl))
 	{
@@ -72,12 +72,13 @@
 			$download_stack = $youtube_downloader->download(
 				Options::create()
 					->url("https://www.youtube.com/watch?v=$videoId")
-					->format($extract_audio ? $audioFormat : $videoFormat)
+					->format($extractAudio ? null : $videoFormat)
 					->output(OUTPUT_FORMAT)
-					->keepVideo($extract_audio)
+					->keepVideo($extractAudio)
 					->noPlaylist(true)
 					->maxFileSize($maxFileSize)
-					->extractAudio($extract_audio)
+					->audioFormat($audioFormat)
+					->extractAudio($extractAudio)
 					->audioQuality($audioQuality)
 					->downloadPath(OUTPUT_FOLDER)
 					->sourceAddress($_SERVER["SERVER_ADDR"])
