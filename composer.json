@@ -1,6 +1,6 @@
 {
     "require": {
-        "symfony/process": "~6.1",
+        "symfony/process": "6.2.*",
         "norkunas/youtube-dl-php": "~2.1"
     }
 }
