@@ -11,7 +11,7 @@
 	// Delete all files in the output folder before downloading a new video.
 	const DONT_KEEP_FILES = true;
 
-	// Available audio formats.
+	// Available video formats.
 	const AVAILABLE_VIDEO_FORMATS = [
 		"best" => "Best (default)",
 		"mp4" => "MP4",
@@ -23,7 +23,7 @@
 		"avi" => "AVI"
 	];
 
-	// Available video formats.
+	// Available audio formats.
 	const AVAILABLE_AUDIO_FORMATS = [
 		"best" => "Best (default)",
 		"mp3" => "MP3",

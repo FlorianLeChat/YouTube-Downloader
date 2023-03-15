@@ -76,8 +76,8 @@
 					->output(OUTPUT_FORMAT)
 					->keepVideo($extractAudio)
 					->noPlaylist(true)
-					->maxFileSize($maxFileSize)
 					->audioFormat($audioFormat)
+					->maxFileSize(MAX_FILE_SIZE)
 					->extractAudio($extractAudio)
 					->audioQuality($audioQuality)
 					->downloadPath(OUTPUT_FOLDER)
@@ -138,7 +138,7 @@
 
 		<!-- Submission form -->
 		<p>
-			You can download videos (<code>WEBM</code> format) or extract music from them (<code>MP3</code> format). <strong>Only videos from YouTube are supported.</strong><br />
+			You can download videos or extract music from them. <strong>Only videos from YouTube are supported.</strong><br />
 			The conversion time by the remote server may differ depending on the video duration and the requested download type.<br />
 			Depending on the file size (<strong><?= MAX_FILE_SIZE; ?>B max</strong>) and the speed of your network connection, the download may take several minutes.
 		</p>
@@ -154,8 +154,7 @@
 				<summary>Advanced options</summary>
 
 				<p>
-					If you don't know what you are doing, leave the default settings.<br />
-					For more information, please refer to the YouTube-DL <a href="https://github.com/ytdl-org/youtube-dl#format-selection" target="_blank">documentation</a>.
+					If you don't know what you are doing, leave the default settings. For more information, please refer to the YouTube-DL <a href="https://github.com/ytdl-org/youtube-dl#format-selection" target="_blank">documentation</a>.<br />
 					Based on the indicated criteria, there may be no download or the file downloaded may not have the specified parameters, this is the normal behavior of YouTube-DL.
 				</p>
 
@@ -182,8 +181,8 @@
 				<label for="audio-quality">Audio quality (0 = better, 9 = worse)</label>
 				<input type="range" id="audio-quality" name="audio-quality" min="0" max="9" value="5" step="1">
 
-				<label for="max-filesize">Max file size (e.g. 50K or 44.6M)</label>
-				<input type="text" id="max-filesize" name="max-filesize" value=<?= MAX_FILE_SIZE ?> placeholder="50k or 44.6m" />
+				<label for="max-filesize">Max file size in bytes (e.g. 50K or 44.6M)</label>
+				<input type="text" id="max-filesize" name="max-filesize" value=<?= MAX_FILE_SIZE ?> placeholder=<?= MAX_FILE_SIZE ?> />
 			</details>
 
 			<input type="submit" value="Download" />
