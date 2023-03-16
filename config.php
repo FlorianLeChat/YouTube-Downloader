@@ -31,6 +31,7 @@
 		"wav" => "WAV",
 		"flac" => "FLAC",
 		"aac" => "AAC",
+		"alac" => "ALAC",
 		"opus" => "Opus",
 		"vorbis" => "Vorbis"
 	];
