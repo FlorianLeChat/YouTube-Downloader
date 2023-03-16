@@ -10,4 +10,29 @@
 
 	// Delete all files in the output folder before downloading a new video.
 	const DONT_KEEP_FILES = true;
+
+	// Available video formats.
+	const AVAILABLE_VIDEO_FORMATS = [
+		"best*" => "Best (default)",
+		"mp4" => "MP4",
+		"webm" => "WebM",
+		"flv" => "FLV",
+		"3gp" => "3GP",
+		"ogg" => "OGG",
+		"mkv" => "MKV",
+		"avi" => "AVI"
+	];
+
+	// Available audio formats.
+	const AVAILABLE_AUDIO_FORMATS = [
+		"best" => "Best (default)",
+		"mp3" => "MP3",
+		"m4a" => "M4A",
+		"wav" => "WAV",
+		"flac" => "FLAC",
+		"aac" => "AAC",
+		"alac" => "ALAC",
+		"opus" => "Opus",
+		"vorbis" => "Vorbis"
+	];
 ?>

@@ -9,22 +9,26 @@
 	use Symfony\Component\Process\ExecutableFinder;
 
 	// Retrieve the URL and identifier of the video.
-	$video_id = "";
-	$video_url = $_POST["url"] ?? "";
-	$extract_audio = boolval($_POST["audio"] ?? "");
+	$videoId = "";
+	$videoUrl = $_POST["url"] ?? "";
+	$audioFormat = in_array($_POST["audio-format"] ?? "", array_keys(AVAILABLE_AUDIO_FORMATS)) ? $_POST["audio-format"] : "best";
+	$videoFormat = in_array($_POST["video-format"] ?? "", array_keys(AVAILABLE_VIDEO_FORMATS)) ? $_POST["video-format"] : "best";
+	$maxFileSize = $_POST["max-filesize"] ?? MAX_FILE_SIZE;
+	$audioQuality = strval(max(0, min(9, $_POST["audio-quality"] ?? 5)));
+	$extractAudio = boolval($_POST["audio"] ?? "");
 
-	if (!empty($video_url))
+	if (!empty($videoUrl))
 	{
 		// Looking for the unique identifier in the URL.
 		// Source: https://gist.github.com/ghalusa/6c7f3a00fd2383e5ef33
 		$matches = [];
 
-		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_url, $matches);
+		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videoUrl, $matches);
 
 		if (count($matches) > 0)
 		{
 			// Return of the first result only.
-			$video_id = $matches[1];
+			$videoId = $matches[1];
 		}
 		else
 		{
@@ -32,7 +36,7 @@
 		}
 	}
 
-	if (!empty($video_id))
+	if (!empty($videoId))
 	{
 		if (!file_exists(OUTPUT_FOLDER))
 		{
@@ -67,16 +71,17 @@
 
 			$download_stack = $youtube_downloader->download(
 				Options::create()
+					->url("https://www.youtube.com/watch?v=$videoId")
+					->format($extractAudio ? null : ($videoFormat . "[filesize<$maxFileSize]"))
 					->output(OUTPUT_FORMAT)
-					->sourceAddress($_SERVER["SERVER_ADDR"])
+					->keepVideo($extractAudio)
 					->noPlaylist(true)
+					->audioFormat($audioFormat)
 					->maxFileSize(MAX_FILE_SIZE)
-					->keepVideo($extract_audio)
-					->extractAudio($extract_audio)
-					->audioFormat($extract_audio ? "mp3" : null)
-					->audioQuality("0")
+					->extractAudio($extractAudio)
+					->audioQuality($audioQuality)
 					->downloadPath(OUTPUT_FOLDER)
-					->url("https://www.youtube.com/watch?v=$video_id")
+					->sourceAddress($_SERVER["SERVER_ADDR"])
 			);
 
 			foreach ($download_stack->getVideos() as $video)
@@ -115,7 +120,7 @@
 		<link rel="apple-touch-icon" href="assets/favicons/180x180.webp" />
 
 		<!-- CSS stylesheet -->
-		<link rel="stylesheet" href="styles.css" />
+		<link rel="stylesheet" href="styles/styles.css" />
 	</head>
 	<body onload="document.querySelector('a[download]')?.click()">
 		<!-- Animated GitHub repository icon -->
@@ -133,8 +138,8 @@
 
 		<!-- Submission form -->
 		<p>
-			You can download videos (<code>WEBM</code> format) or extract music from them (<code>MP3</code> format). <strong>Only videos from YouTube are supported.</strong><br />
-			The conversion time by the remote server may differ depending on the video duration and the requested download type.<br />
+			You can download videos or extract music from them. <strong>Only videos from YouTube are supported.</strong><br />
+			The conversion time by the remote server may differ depending on the video duration and the requested download format.<br />
 			Depending on the file size (<strong><?= MAX_FILE_SIZE; ?>B max</strong>) and the speed of your network connection, the download may take several minutes.
 		</p>
 
@@ -144,6 +149,41 @@
 
 			<label for="audio">Audio only?</label>
 			<input type="checkbox" id="audio" name="audio" />
+
+			<details>
+				<summary>Advanced options</summary>
+
+				<p>
+					If you don't know what you are doing, leave the default settings. For more information, please refer to the YouTube-DL <a href="https://github.com/ytdl-org/youtube-dl#format-selection" target="_blank">documentation</a>.<br />
+					Based on the indicated criteria, there may be no download or the file downloaded may not have the specified parameters, this is the normal behavior of YouTube-DL.
+				</p>
+
+				<label for="video-format">Video formats (this also covers the video audio)</label>
+				<select id="video-format" name="video-format">
+					<?php
+						foreach (AVAILABLE_VIDEO_FORMATS as $key => $value)
+						{
+							echo("<option value=\"" . $key . "\">$value</option>");
+						}
+					?>
+				</select>
+
+				<label for="audio-format">Audio-only formats</label>
+				<select id="audio-format" name="audio-format">
+					<?php
+						foreach (AVAILABLE_AUDIO_FORMATS as $key => $value)
+						{
+							echo("<option value=\"" . $key . "\">$value</option>");
+						}
+					?>
+				</select>
+
+				<label for="audio-quality">Audio-only quality (0 = better, 9 = worse)</label>
+				<input type="range" id="audio-quality" name="audio-quality" min="0" max="9" value="5" step="1">
+
+				<label for="max-filesize">Max file size in bytes (e.g. 50K or 44.6M)<br /><strong>Values above specified server threshold will be ignored during processing.</strong></label>
+				<input type="text" id="max-filesize" name="max-filesize" value=<?= MAX_FILE_SIZE ?> placeholder=<?= MAX_FILE_SIZE ?> />
+			</details>
 
 			<input type="submit" value="Download" />
 		</form>
