@@ -72,7 +72,7 @@
 			$download_stack = $youtube_downloader->download(
 				Options::create()
 					->url("https://www.youtube.com/watch?v=$videoId")
-					->format($extractAudio ? null : $videoFormat)
+					->format($extractAudio ? null : ($videoFormat . "[filesize<$maxFileSize]"))
 					->output(OUTPUT_FORMAT)
 					->keepVideo($extractAudio)
 					->noPlaylist(true)
@@ -139,7 +139,7 @@
 		<!-- Submission form -->
 		<p>
 			You can download videos or extract music from them. <strong>Only videos from YouTube are supported.</strong><br />
-			The conversion time by the remote server may differ depending on the video duration and the requested download type.<br />
+			The conversion time by the remote server may differ depending on the video duration and the requested download format.<br />
 			Depending on the file size (<strong><?= MAX_FILE_SIZE; ?>B max</strong>) and the speed of your network connection, the download may take several minutes.
 		</p>
 
@@ -178,10 +178,10 @@
 					?>
 				</select>
 
-				<label for="audio-quality">Audio quality (0 = better, 9 = worse)</label>
+				<label for="audio-quality">Audio-only quality (0 = better, 9 = worse)</label>
 				<input type="range" id="audio-quality" name="audio-quality" min="0" max="9" value="5" step="1">
 
-				<label for="max-filesize">Max file size in bytes (e.g. 50K or 44.6M)</label>
+				<label for="max-filesize">Max file size in bytes (e.g. 50K or 44.6M)<br /><strong>Values above specified server threshold will be ignored during processing.</strong></label>
 				<input type="text" id="max-filesize" name="max-filesize" value=<?= MAX_FILE_SIZE ?> placeholder=<?= MAX_FILE_SIZE ?> />
 			</details>
 
