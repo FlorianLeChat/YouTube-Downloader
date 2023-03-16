@@ -13,7 +13,7 @@
 
 	// Available video formats.
 	const AVAILABLE_VIDEO_FORMATS = [
-		"best" => "Best (default)",
+		"best*" => "Best (default)",
 		"mp4" => "MP4",
 		"webm" => "WebM",
 		"flv" => "FLV",
