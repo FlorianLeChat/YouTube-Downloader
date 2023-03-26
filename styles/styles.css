@@ -1,3 +1,9 @@
+/* Home page title */
+h1
+{
+	margin-right: 3rem;
+}
+
 /* Input field */
 input[type = text]
 {
