@@ -190,7 +190,7 @@
 
 		<!-- Download link -->
 		<?php if (!empty($download_path)):  ?>
-			📥 <a href="<?= $download_path ?>" download>Download doesn't start by itself? Please click here</a>.
+			📥 <a href="<?= "$download_path?time=" . time() ?>" download>Download doesn't start by itself? Please click here</a>.
 		<?php endif; ?>
 
 		<!-- Error output -->
