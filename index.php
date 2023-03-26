@@ -32,7 +32,7 @@
 		}
 		else
 		{
-			$video_output = "Incomplete or invalid YouTube video URL.";
+			$videoOutput = "Incomplete or invalid YouTube video URL.";
 		}
 	}
 
@@ -42,6 +42,7 @@
 		{
 			// Create the output folder if it does not exist.
 			mkdir(OUTPUT_FOLDER);
+			mkdir(OUTPUT_FOLDER . "/temp");
 		}
 
 		if (DONT_KEEP_FILES)
@@ -59,28 +60,27 @@
 		}
 
 		// Checks if a file is already saved or if the video needs to be downloaded.
-		$download_path = "";
+		$downloadPath = "";
 
-		if (!file_exists($download_path))
+		if (!file_exists($downloadPath))
 		{
-			$downloader_path = new ExecutableFinder();
-			$executable_path = $downloader_path->find("youtube-dl", null, ["/usr/local/bin"]) ?? $downloader_path->find("yt-dlp", null, ["/usr/local/bin"]);
+			$downloaderPath = new ExecutableFinder();
+			$executablePath = $downloaderPath->find("youtube-dl", null, ["/usr/local/bin"]) ?? $downloaderPath->find("yt-dlp", null, ["/usr/local/bin"]);
 
-			$youtube_downloader = new YoutubeDl();
-			$youtube_downloader->setBinPath($executable_path ?? "/usr/local/bin/youtube-dl");
+			$youtubeDownloader = new YoutubeDl();
+			$youtubeDownloader->setBinPath($executablePath ?? "/usr/local/bin/youtube-dl");
 
-			$download_stack = $youtube_downloader->download(
+			$download_stack = $youtubeDownloader->download(
 				Options::create()
 					->url("https://www.youtube.com/watch?v=$videoId")
 					->format(($extractAudio ? $audioFormat : $videoFormat) . "[filesize<$maxFileSize]")
 					->output(OUTPUT_FORMAT)
-					->keepVideo($extractAudio)
 					->noPlaylist(true)
 					->audioFormat($audioFormat)
 					->maxFileSize(MAX_FILE_SIZE)
 					->extractAudio($extractAudio)
 					->audioQuality($audioQuality)
-					->downloadPath(OUTPUT_FOLDER)
+					->downloadPath(OUTPUT_FOLDER . "/temp")
 					->sourceAddress($_SERVER["SERVER_ADDR"])
 			);
 
@@ -89,12 +89,15 @@
 				if ($video->getError() !== null)
 				{
 					// Error while downloading/converting.
-					$video_output = $video->getError();
+					$videoOutput = $video->getError();
 				}
 				else
 				{
-					// Save the downloaded file.
-					$download_path = $video->getFilename();
+					// Move and save the downloaded file.
+					$fileName = str_replace(OUTPUT_FOLDER . "/temp/", "", $video->getFilename());
+					$downloadPath = OUTPUT_FOLDER . "/$fileName";
+
+					rename($video->getFilename(), $downloadPath);
 				}
 			}
 		}
@@ -189,15 +192,15 @@
 		</form>
 
 		<!-- Download link -->
-		<?php if (!empty($download_path)):  ?>
-			📥 <a href="<?= "$download_path?time=" . time() ?>" download>Download doesn't start by itself? Please click here</a>.
+		<?php if (!empty($downloadPath)):  ?>
+			📥 <a href="<?= "$downloadPath?time=" . time() ?>" download>Download doesn't start by itself? Please click here</a>.
 		<?php endif; ?>
 
 		<!-- Error output -->
-		<?php if (!empty($video_output)):  ?>
+		<?php if (!empty($videoOutput)):  ?>
 			<h3>⚠️ Error output ⚠️</h3>
 
-			<p><?= $video_output ?></p>
+			<p><?= $videoOutput ?></p>
 		<?php endif; ?>
 	</body>
 </html>
