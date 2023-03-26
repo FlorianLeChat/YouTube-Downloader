@@ -62,43 +62,40 @@
 		// Checks if a file is already saved or if the video needs to be downloaded.
 		$downloadPath = "";
 
-		if (!file_exists($downloadPath))
+		$downloaderPath = new ExecutableFinder();
+		$executablePath = $downloaderPath->find("youtube-dl", null, ["/usr/local/bin"]) ?? $downloaderPath->find("yt-dlp", null, ["/usr/local/bin"]);
+
+		$youtubeDownloader = new YoutubeDl();
+		$youtubeDownloader->setBinPath($executablePath ?? "/usr/local/bin/youtube-dl");
+
+		$download_stack = $youtubeDownloader->download(
+			Options::create()
+				->url("https://www.youtube.com/watch?v=$videoId")
+				->format(($extractAudio ? $audioFormat : $videoFormat) . "[filesize<$maxFileSize]/[filesize<$maxFileSize]")
+				->output(OUTPUT_FORMAT)
+				->noPlaylist(true)
+				->audioFormat($audioFormat)
+				->maxFileSize(MAX_FILE_SIZE)
+				->extractAudio($extractAudio)
+				->audioQuality($audioQuality)
+				->downloadPath(OUTPUT_FOLDER . "/temp")
+				->sourceAddress($_SERVER["SERVER_ADDR"])
+		);
+
+		foreach ($download_stack->getVideos() as $video)
 		{
-			$downloaderPath = new ExecutableFinder();
-			$executablePath = $downloaderPath->find("youtube-dl", null, ["/usr/local/bin"]) ?? $downloaderPath->find("yt-dlp", null, ["/usr/local/bin"]);
-
-			$youtubeDownloader = new YoutubeDl();
-			$youtubeDownloader->setBinPath($executablePath ?? "/usr/local/bin/youtube-dl");
-
-			$download_stack = $youtubeDownloader->download(
-				Options::create()
-					->url("https://www.youtube.com/watch?v=$videoId")
-					->format(($extractAudio ? $audioFormat : $videoFormat) . "[filesize<$maxFileSize]/[filesize<$maxFileSize]")
-					->output(OUTPUT_FORMAT)
-					->noPlaylist(true)
-					->audioFormat($audioFormat)
-					->maxFileSize(MAX_FILE_SIZE)
-					->extractAudio($extractAudio)
-					->audioQuality($audioQuality)
-					->downloadPath(OUTPUT_FOLDER . "/temp")
-					->sourceAddress($_SERVER["SERVER_ADDR"])
-			);
-
-			foreach ($download_stack->getVideos() as $video)
+			if ($video->getError() !== null)
 			{
-				if ($video->getError() !== null)
-				{
-					// Error while downloading/converting.
-					$videoOutput = $video->getError();
-				}
-				else
-				{
-					// Move and save the downloaded file.
-					$fileName = str_replace(OUTPUT_FOLDER . "/temp/", "", $video->getFilename());
-					$downloadPath = OUTPUT_FOLDER . "/$fileName";
+				// Error while downloading/converting.
+				$videoOutput = $video->getError();
+			}
+			else
+			{
+				// Move and save the downloaded file.
+				$fileName = str_replace(OUTPUT_FOLDER . "/temp/", "", $video->getFilename());
+				$downloadPath = OUTPUT_FOLDER . "/$fileName";
 
-					rename($video->getFilename(), $downloadPath);
-				}
+				rename($video->getFilename(), $downloadPath);
 			}
 		}
 	}
