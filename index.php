@@ -72,7 +72,7 @@
 			$download_stack = $youtube_downloader->download(
 				Options::create()
 					->url("https://www.youtube.com/watch?v=$videoId")
-					->format($extractAudio ? null : ($videoFormat . "[filesize<$maxFileSize]"))
+					->format(($extractAudio ? $audioFormat : $videoFormat) . "[filesize<$maxFileSize]")
 					->output(OUTPUT_FORMAT)
 					->keepVideo($extractAudio)
 					->noPlaylist(true)
