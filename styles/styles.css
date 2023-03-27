@@ -27,7 +27,7 @@ details
 }
 
 /* Advanced options inputs */
-select, input[type = range]
+select, input[type = range], details input[type = checkbox]
 {
 	display: block;
 	margin-bottom: 1rem;

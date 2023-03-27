@@ -11,6 +11,7 @@
 	// Retrieve the URL and identifier of the video.
 	$videoId = "";
 	$videoUrl = $_POST["url"] ?? "";
+	$recodeVideo = in_array($_POST["recode-video"] ?? "", array_keys(AVAILABLE_RECODE_FORMATS)) ? $_POST["recode-video"] : null;
 	$audioFormat = in_array($_POST["audio-format"] ?? "", array_keys(AVAILABLE_AUDIO_FORMATS)) ? $_POST["audio-format"] : "best";
 	$videoFormat = in_array($_POST["video-format"] ?? "", array_keys(AVAILABLE_VIDEO_FORMATS)) ? $_POST["video-format"] : "best";
 	$maxFileSize = $_POST["max-filesize"] ?? MAX_FILE_SIZE;
@@ -75,6 +76,7 @@
 				->output(OUTPUT_FORMAT)
 				->noPlaylist(true)
 				->audioFormat($audioFormat)
+				->recodeVideo($recodeVideo)
 				->maxFileSize(MAX_FILE_SIZE)
 				->extractAudio($extractAudio)
 				->audioQuality($audioQuality)
@@ -178,6 +180,18 @@
 					?>
 				</select>
 
+				<label for="recode-video">Recode video<br />If your format is unavailable, you can force a file recoding to a selected format (<strong>this increases processing time and has no guarantee of working</strong>).</label>
+				<select id="recode-video" name="recode-video">
+					<option value="">None</option>
+
+					<?php
+						foreach (AVAILABLE_RECODE_FORMATS as $key => $value)
+						{
+							echo("<option value=\"" . $key . "\">$value</option>");
+						}
+					?>
+				</select>
+
 				<label for="audio-quality">Audio-only quality (0 = better, 9 = worse)</label>
 				<input type="range" id="audio-quality" name="audio-quality" min="0" max="9" value="5" step="1">
 
@@ -189,7 +203,7 @@
 		</form>
 
 		<!-- Download link -->
-		<?php if (!empty($downloadPath)):  ?>
+		<?php if (!empty($downloadPath)): ?>
 			📥 <a href="<?= "$downloadPath?time=" . time() ?>" download>Download doesn't start by itself? Please click here</a>.
 		<?php endif; ?>
 
