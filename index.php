@@ -11,6 +11,7 @@
 	// Retrieve the URL and identifier of the video.
 	$videoId = "";
 	$videoUrl = $_POST["url"] ?? "";
+	$cloudflare = !empty($_SERVER["HTTP_CF_CONNECTING_IP"]);
 	$recodeVideo = in_array($_POST["recode-video"] ?? "", array_keys(AVAILABLE_RECODE_FORMATS)) ? $_POST["recode-video"] : null;
 	$audioFormat = in_array($_POST["audio-format"] ?? "", array_keys(AVAILABLE_AUDIO_FORMATS)) ? $_POST["audio-format"] : "best";
 	$videoFormat = in_array($_POST["video-format"] ?? "", array_keys(AVAILABLE_VIDEO_FORMATS)) ? $_POST["video-format"] : "best";
@@ -76,7 +77,7 @@
 				->output(OUTPUT_FORMAT)
 				->noPlaylist(true)
 				->audioFormat($audioFormat)
-				->recodeVideo($recodeVideo)
+				->recodeVideo($cloudflare ? null : $recodeVideo)
 				->maxFileSize(MAX_FILE_SIZE)
 				->extractAudio($extractAudio)
 				->audioQuality($audioQuality)
@@ -181,7 +182,7 @@
 				</select>
 
 				<label for="recode-video">Recode video<br />If your format is unavailable, you can force a file recoding to a selected format (<strong>this increases processing time and has no guarantee of working</strong>).</label>
-				<select id="recode-video" name="recode-video">
+				<select id="recode-video" name="recode-video" <?= $cloudflare ? "disabled" : "" ?>>
 					<option value="">None</option>
 
 					<?php
