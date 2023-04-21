@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "719e5b902fc0ff4308b2c5907bad16f1",
+    "content-hash": "f59a157b9435815eefb0974b57c7d98f",
     "packages": [
         {
             "name": "norkunas/youtube-dl-php",
-            "version": "v2.1.3",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/norkunas/youtube-dl-php.git",
-                "reference": "1bd8a63a27a4bc139a42502947ad9e68c46d907a"
+                "reference": "173d5e4528cf55dcb6027869f5b9de8154330474"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/norkunas/youtube-dl-php/zipball/1bd8a63a27a4bc139a42502947ad9e68c46d907a",
-                "reference": "1bd8a63a27a4bc139a42502947ad9e68c46d907a",
+                "url": "https://api.github.com/repos/norkunas/youtube-dl-php/zipball/173d5e4528cf55dcb6027869f5b9de8154330474",
+                "reference": "173d5e4528cf55dcb6027869f5b9de8154330474",
                 "shasum": ""
             },
             "require": {
@@ -28,8 +28,8 @@
                 "symfony/process": "^4.4|^5.1|^6.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.9",
                 "mikey179/vfsstream": "^1.6.10",
+                "php-cs-fixer/shim": "^3.9",
                 "phpstan/phpstan": "^1.8",
                 "phpstan/phpstan-phpunit": "^1.1",
                 "symfony/phpunit-bridge": "^6.1"
@@ -63,9 +63,9 @@
             ],
             "support": {
                 "issues": "https://github.com/norkunas/youtube-dl-php/issues",
-                "source": "https://github.com/norkunas/youtube-dl-php/tree/v2.1.3"
+                "source": "https://github.com/norkunas/youtube-dl-php/tree/v2.2.1"
             },
-            "time": "2022-07-25T05:31:37+00:00"
+            "time": "2023-04-21T03:50:15+00:00"
         },
         {
             "name": "symfony/filesystem",
