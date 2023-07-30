@@ -2,8 +2,7 @@
 
 # Use an customized image of PHP 8.2 with Nginx
 # https://github.com/webdevops/Dockerfile/blob/master/docker/php-nginx/8.2-alpine/Dockerfile
-ARG PHP_VERSION
-FROM webdevops/php-nginx:${PHP_VERSION}-alpine
+FROM webdevops/php-nginx:8.2-alpine
 
 # Install Python 3 (required for yt-dl) and ffmpeg (required for audio extraction)
 RUN apk add python3 py3-pip ffmpeg
