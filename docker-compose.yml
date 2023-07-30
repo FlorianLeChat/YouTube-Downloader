@@ -9,7 +9,5 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-      args:
-        PHP_VERSION: 8.2
     ports:
       - 80:80
