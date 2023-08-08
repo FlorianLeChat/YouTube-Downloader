@@ -14,3 +14,8 @@ updates:
     schedule:
       # Check for updates managed by Composer once a month
       interval: "monthly"
+    groups:
+      # Group together all dependencies in a single pull request
+      dependencies:
+        patterns:
+          - "*"
