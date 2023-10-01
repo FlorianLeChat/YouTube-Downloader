@@ -7,6 +7,11 @@ updates:
     schedule:
       # Check for updates managed by GitHub Actions once a month
       interval: "monthly"
+    groups:
+      # Group together all dependencies in a single pull request
+      dependencies:
+        patterns:
+          - "*"
 
   # Maintain dependencies for Composer
   - package-ecosystem: "composer"
