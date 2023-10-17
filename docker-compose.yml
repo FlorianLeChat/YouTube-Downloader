@@ -1,13 +1,31 @@
-version: "3.9"
+version: "3.8"
 
 services:
-  # https://github.com/FlorianLeChat/YouTube-Downloader
-  php-nginx:
-    image: youtubedownloader
-    container_name: website
-    restart: always
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 80:80
+    # https://github.com/FlorianLeChat/YouTube-Downloader
+    php:
+        image: youtube-downloader
+        restart: always
+        healthcheck:
+            test: curl -f http://127.0.0.1:9000/ 2>&1 | grep "Connection reset by peer" || curl -f http://localhost
+            retries: 3
+            timeout: 5s
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 128M
+                reservations:
+                    cpus: "0.25"
+                    memory: 32M
+            restart_policy:
+                window: 60s
+                condition: on-failure
+                max_attempts: 5
+        build:
+            args:
+                - VERSION
+                - MANAGER
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - 80:80

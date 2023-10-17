@@ -1,25 +1,48 @@
 # syntax=docker/dockerfile:1
 
-# Use an customized image of PHP 8.2 with Nginx
-# https://github.com/webdevops/Dockerfile/blob/master/docker/php-nginx/8.2-alpine/Dockerfile
-FROM webdevops/php-nginx:8.2-alpine
+# Use an customized image of PHP
+# https://hub.docker.com/_/php
+ARG VERSION=8.2-apache
+FROM php:${VERSION}
 
-# Install Python 3 (required for yt-dl) and ffmpeg (required for audio extraction)
-RUN apk add python3 py3-pip ffmpeg
+# Install dependencies
+ARG MANAGER=apt
+RUN if [ $MANAGER = "apt" ]; then \
+        apt update && apt install git zip unzip libzip-dev python3 python3-pip ffmpeg -y; \
+    else \
+		echo https://dl-4.alpinelinux.org/alpine/latest-stable/community/ >> /etc/apk/repositories && \
+		apk update && \
+        apk add --no-cache git zip unzip libzip-dev python3 py3-pip ffmpeg; \
+    fi
 
 # Install yt-dl (patched version)
-RUN python3 -m pip install https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+RUN python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+
+# Install some PHP extensions
+RUN docker-php-ext-install zip
+
+# Install Composer for dependency management
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
+
+# Use the PHP production configuration
+RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
 # Set the working directory to the website files
-WORKDIR /app
+WORKDIR /var/www/html
 
 # Copy only files required to install dependencies
-COPY composer*.json ./
+COPY --chown=www-data:www-data composer*.json ./
+
+# Change current user to www-data
+USER www-data
 
 # Install all dependencies
 # Use cache mount to speed up installation of existing dependencies
-RUN --mount=type=cache,target=/app/.composer \
+RUN --mount=type=cache,target=.composer \
 	composer install --no-dev --optimize-autoloader
 
 # Copy the remaining files AFTER installing dependencies
-COPY . .
+COPY --chown=www-data:www-data . .
+
+# Use the PHP custom configuration (if exists)
+RUN if [ -f "docker/php.ini" ]; then mv "docker/php.ini" "$PHP_INI_DIR/php.ini"; fi
