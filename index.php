@@ -82,7 +82,6 @@
 				->extractAudio($extractAudio)
 				->audioQuality($audioQuality)
 				->downloadPath(OUTPUT_FOLDER . "/temp")
-				->sourceAddress($_SERVER["SERVER_ADDR"])
 		);
 
 		foreach ($download_stack->getVideos() as $video)
