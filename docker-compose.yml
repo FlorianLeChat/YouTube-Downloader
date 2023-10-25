@@ -4,7 +4,6 @@ services:
     # https://github.com/FlorianLeChat/YouTube-Downloader
     php:
         image: youtube-downloader
-        restart: always
         healthcheck:
             test: curl -f http://127.0.0.1:9000/ 2>&1 | grep "Connection reset by peer" || curl -f http://localhost
             retries: 3
