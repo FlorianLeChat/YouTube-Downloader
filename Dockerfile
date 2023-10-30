@@ -36,6 +36,10 @@ COPY --chown=www-data:www-data . .
 # Use the PHP custom configuration (if exists)
 RUN if [ -f "docker/php.ini" ]; then mv "docker/php.ini" "$PHP_INI_DIR/php.ini"; fi
 
+# Create and set permissions for output directory
+# https://github.com/docker/compose/issues/3270#issuecomment-206214034
+RUN mkdir -p output/temp && chown www-data:www-data output/ -R
+
 # Change current user to www-data
 USER www-data
 
