@@ -4,6 +4,7 @@ services:
     # https://github.com/FlorianLeChat/YouTube-Downloader
     php:
         image: youtube-downloader
+        restart: always
         volumes:
             - ./output:/var/www/html/output
             - ./output/temp:/var/www/html/output/temp
@@ -19,10 +20,6 @@ services:
                 reservations:
                     cpus: "0.25"
                     memory: 32M
-            restart_policy:
-                window: 60s
-                condition: on-failure
-                max_attempts: 5
         build:
             args:
                 - VERSION
