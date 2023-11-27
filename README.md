@@ -7,7 +7,7 @@ Ce petit site Internet permet de fournir une interface simple et fonctionnelle a
 🐧 **Ce projet fonctionne mieux sous les environnements Unix / Linux. Une image Docker est d'ailleurs disponible pour tester ce projet ! 🐳**
 
 <ins>Voici les exigences pour exécuter le site Internet</ins> :
-* PHP **8.2+**
+* [**Toute** version de PHP maintenue](https://www.php.net/supported-versions.php)
 
 ___
 
@@ -18,6 +18,6 @@ This simple website provides a convenient and functional interface for people lo
 🐧 **This project works best under Unix / Linux environments. A Docker image is also available to test this project! 🐳**
 
 <ins>Here are the requirements to run the website</ins>:
-* PHP **8.2+**
+* [**Any** maintained PHP versions](https://www.php.net/supported-versions.php)
 
 ![image](https://user-images.githubusercontent.com/26360935/190904189-22ef0ab2-5f48-4b80-827d-2d44c0498453.png)

@@ -2,12 +2,12 @@
 
 # Use an customized image of PHP
 # https://hub.docker.com/_/php
-ARG VERSION=8.2-apache
+ARG VERSION=apache
 FROM php:${VERSION}
 
 # Install dependencies
-ARG MANAGER=apt
-RUN if [ $MANAGER = "apt" ]; then \
+ARG VERSION
+RUN if [ $VERSION = "apache" ]; then \
         apt update && apt install git zip unzip libzip-dev python3 python3-pip ffmpeg -y; \
     else \
 		echo https://dl-4.alpinelinux.org/alpine/latest-stable/community/ >> /etc/apk/repositories && \
