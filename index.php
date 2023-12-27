@@ -211,7 +211,7 @@
 		<?php if (!empty($videoOutput)):  ?>
 			<h3>⚠️ Error output ⚠️</h3>
 
-			<p><?= $videoOutput ?></p>
+			<output><?= $videoOutput ?></output>
 		<?php endif; ?>
 	</body>
 </html>
