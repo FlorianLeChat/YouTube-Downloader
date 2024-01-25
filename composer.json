@@ -17,6 +17,7 @@
     "require": {
         "php": ">=8.1",
         "symfony/process": "7.0.*",
+        "symfony/http-foundation": "7.0.*",
         "norkunas/youtube-dl-php": "2.3.*"
     }
 }
