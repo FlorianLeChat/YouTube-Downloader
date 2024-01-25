@@ -7,6 +7,7 @@
 	use YoutubeDl\Options;
 	use YoutubeDl\YoutubeDl;
 	use Symfony\Component\Process\ExecutableFinder;
+	use Symfony\Component\HttpFoundation\StreamedResponse;
 
 	// Retrieve the URL and identifier of the video.
 	$videoId = "";
@@ -68,38 +69,11 @@
 		$executablePath = $downloaderPath->find("youtube-dl", null, ["/usr/local/bin"]) ?? $downloaderPath->find("yt-dlp", null, ["/usr/local/bin"]);
 
 		$youtubeDownloader = new YoutubeDl();
-		$youtubeDownloader->setBinPath($executablePath ?? "/usr/local/bin/youtube-dl");
+		$youtubeDownloader->setBinPath($executablePath ?? "C:/wamp64/www/YouTube-Downloader/test/yt-dlp.exe");
 
-		$download_stack = $youtubeDownloader->download(
-			Options::create()
-				->url("https://www.youtube.com/watch?v=$videoId")
-				->format($extractAudio ? null : ($videoFormat . "[filesize<$maxFileSize]"))
-				->output(OUTPUT_FORMAT)
-				->noPlaylist(true)
-				->audioFormat($audioFormat)
-				->recodeVideo($cloudflare ? null : $recodeVideo)
-				->maxFileSize(MAX_FILE_SIZE)
-				->extractAudio($extractAudio)
-				->audioQuality($audioQuality)
-				->downloadPath(OUTPUT_FOLDER . "/temp")
-		);
-
-		foreach ($download_stack->getVideos() as $video)
-		{
-			if ($video->getError() !== null)
-			{
-				// Error while downloading/converting.
-				$videoOutput = $video->getError();
-			}
-			else
-			{
-				// Move and save the downloaded file.
-				$fileName = str_replace(OUTPUT_FOLDER . "/temp/", "", $video->getFilename());
-				$downloadPath = OUTPUT_FOLDER . "/$fileName";
-
-				rename($video->getFilename(), $downloadPath);
-			}
-		}
+		// Stream the download progress.
+		$response = new StreamedResponse();
+		$response->headers->set("X-Accel-Buffering", "no");
 	}
 ?>
 
@@ -201,6 +175,74 @@
 
 			<input type="submit" value="Download" />
 		</form>
+
+		<!-- Progress bar -->
+		<?php
+			if (!empty($response))
+			{
+				// Download progression.
+				$progression = 0;
+
+				$response->setCallback(static function (?string $target = "", ?string $percentage = "") use (&$progression): void
+				{
+					if ($progression === 0)
+					{
+						echo("<h3>⏳ Download progress ⏳</h3>");
+					}
+
+					$percentage = ceil(str_replace("%", "", $percentage) / 10);
+
+					if ($progression !== $percentage)
+					{
+						echo(str_repeat("⬛", $percentage - $progression));
+
+						$progression = $percentage;
+
+						if ($progression == 10)
+						{
+							echo("<br />");
+						}
+					}
+
+					ob_flush();
+					flush();
+				});
+
+				$youtubeDownloader->onProgress($response->getCallback());
+
+				// Download the selected video.
+				$download_stack = $youtubeDownloader->download(
+					Options::create()
+						->url("https://www.youtube.com/watch?v=$videoId")
+						->format($extractAudio ? null : ($videoFormat . "[filesize<$maxFileSize]"))
+						->output(OUTPUT_FORMAT)
+						->noPlaylist(true)
+						->audioFormat($audioFormat)
+						->recodeVideo($cloudflare ? null : $recodeVideo)
+						->maxFileSize(MAX_FILE_SIZE)
+						->extractAudio($extractAudio)
+						->audioQuality($audioQuality)
+						->downloadPath(OUTPUT_FOLDER . "/temp")
+				);
+
+				foreach ($download_stack->getVideos() as $video)
+				{
+					if ($video->getError() !== null)
+					{
+						// Error while downloading/converting.
+						$videoOutput = $video->getError();
+					}
+					else
+					{
+						// Move and save the downloaded file.
+						$fileName = str_replace(OUTPUT_FOLDER . "/temp/", "", $video->getFilename());
+						$downloadPath = OUTPUT_FOLDER . "/$fileName";
+
+						rename($video->getFilename(), $downloadPath);
+					}
+				}
+			}
+		?>
 
 		<!-- Download link -->
 		<?php if (!empty($downloadPath)): ?>
