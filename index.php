@@ -73,7 +73,6 @@
 
 		// Stream the download progress.
 		$response = new StreamedResponse();
-		$response->headers->set("X-Accel-Buffering", "no");
 	}
 ?>
 
