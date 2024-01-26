@@ -238,6 +238,9 @@
 						$downloadPath = OUTPUT_FOLDER . "/$fileName";
 
 						rename($video->getFilename(), $downloadPath);
+
+						// Encode the file name to avoid issues with special characters.
+						$downloadPath = OUTPUT_FOLDER . "/" . rawurlencode($fileName);
 					}
 				}
 			}
