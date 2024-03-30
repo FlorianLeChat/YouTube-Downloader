@@ -23,4 +23,4 @@ services:
             context: .
             dockerfile: ./docker/Dockerfile.dev
         ports:
-            - 80:80
+            - "80:80"
