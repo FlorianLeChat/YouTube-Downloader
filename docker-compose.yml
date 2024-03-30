@@ -23,10 +23,7 @@ services:
                     cpus: "0.25"
                     memory: 32M
         build:
-            args:
-                - VERSION
-                - MANAGER
             context: .
-            dockerfile: ./Dockerfile
+            dockerfile: ./docker/Dockerfile.dev
         ports:
             - 80:80
