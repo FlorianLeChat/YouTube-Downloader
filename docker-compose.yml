@@ -7,6 +7,11 @@ services:
     php:
         image: youtube-downloader
         restart: always
+        develop:
+            watch:
+                - action: sync
+                  path: .
+                  target: /var/www/html
         healthcheck:
             test: curl -f http://127.0.0.1:9000/ 2>&1 | grep "Connection reset by peer" || curl -f http://localhost
             retries: 3
