@@ -27,16 +27,12 @@ COPY --chown=www-data:www-data . .
 
 # Use the default or custom PHP configuration (if exists)
 RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini && \
-    if [ -f "docker/php.ini" ]; then \
-    	mv "docker/php.ini" "$PHP_INI_DIR/php.ini"; \
-    fi
+	if [ -f "docker/php.ini" ]; then \
+		mv "docker/php.ini" "$PHP_INI_DIR/php.ini"; \
+	fi
 
 # Change current user to www-data
 USER www-data
-
-# Create and set permissions for output directory
-# https://github.com/docker/compose/issues/3270#issuecomment-206214034
-RUN mkdir -p output/temp && chown www-data:www-data output/ -R
 
 # Install all dependencies
 # Use cache mount to speed up installation of existing dependencies
