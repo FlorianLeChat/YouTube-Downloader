@@ -16,14 +16,6 @@ services:
             test: curl -f http://127.0.0.1:9000/ 2>&1 | grep "Connection reset by peer" || curl -f http://localhost
             retries: 3
             timeout: 5s
-        deploy:
-            resources:
-                limits:
-                    cpus: "1"
-                    memory: 128M
-                reservations:
-                    cpus: "0.25"
-                    memory: 32M
         build:
             context: .
             dockerfile: ./docker/Dockerfile.dev
