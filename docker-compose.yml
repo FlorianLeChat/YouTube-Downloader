@@ -1,7 +1,5 @@
 name: youtube-downloader
 
-version: "3.8"
-
 services:
     # https://github.com/FlorianLeChat/YouTube-Downloader
     php:
