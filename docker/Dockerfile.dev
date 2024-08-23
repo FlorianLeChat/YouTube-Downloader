@@ -11,8 +11,7 @@ RUN apt update && apt install python3 python3-pip ffmpeg -y
 RUN python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 # Install some PHP extensions
-RUN curl -sSLf -o /usr/local/bin/install-php-extensions \
-		https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
+RUN curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
 	chmod +x /usr/local/bin/install-php-extensions && \
 	install-php-extensions zip opcache
 
@@ -26,7 +25,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY --chown=www-data:www-data . .
 
 # Use the default or custom PHP configuration (if exists)
-RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini && \
+RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini && \
 	if [ -f "docker/php.ini" ]; then \
 		mv "docker/php.ini" "$PHP_INI_DIR/php.ini"; \
 	fi
