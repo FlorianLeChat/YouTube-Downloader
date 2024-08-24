@@ -13,7 +13,7 @@ RUN python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-
 # Install some PHP extensions
 RUN curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
 	chmod +x /usr/local/bin/install-php-extensions && \
-	install-php-extensions zip opcache
+	install-php-extensions zip
 
 # Set the working directory to the website files
 WORKDIR /var/www/html
