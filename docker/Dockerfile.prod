@@ -11,9 +11,9 @@ RUN apk add --no-cache python3 py3-pip ffmpeg
 RUN python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 # Install some PHP extensions
-RUN curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
-	chmod +x /usr/local/bin/install-php-extensions && \
-	install-php-extensions zip opcache
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions zip opcache @composer
 
 # Set the working directory to the website files
 WORKDIR /var/www/html
