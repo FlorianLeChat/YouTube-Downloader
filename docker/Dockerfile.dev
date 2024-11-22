@@ -18,9 +18,6 @@ RUN install-php-extensions zip @composer
 # Set the working directory to the website files
 WORKDIR /var/www/html
 
-# Install Composer for dependency management
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
 # Copy all files to the working directory
 COPY --chown=www-data:www-data . .
 
