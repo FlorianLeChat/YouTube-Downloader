@@ -4,28 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d935d09ad57cc80cdd8760022f43bf52",
+    "content-hash": "d6712acd253d83d3ecdc3ecd5c096f6e",
     "packages": [
         {
             "name": "norkunas/youtube-dl-php",
-            "version": "v2.8.1",
+            "version": "v2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/norkunas/youtube-dl-php.git",
-                "reference": "2382ef521bbf1a42f9d99e817060485eb4e26adf"
+                "reference": "3484eb38c4ef9c97b3b1ea00f6952179702ed2d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/norkunas/youtube-dl-php/zipball/2382ef521bbf1a42f9d99e817060485eb4e26adf",
-                "reference": "2382ef521bbf1a42f9d99e817060485eb4e26adf",
+                "url": "https://api.github.com/repos/norkunas/youtube-dl-php/zipball/3484eb38c4ef9c97b3b1ea00f6952179702ed2d1",
+                "reference": "3484eb38c4ef9c97b3b1ea00f6952179702ed2d1",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=7.4.0",
-                "symfony/filesystem": "^4.4|^5.1|^6.0|^7.0",
+                "symfony/filesystem": "^5.1|^6.0|^7.0",
                 "symfony/polyfill-php80": "^1.28",
-                "symfony/process": "^4.4|^5.1|^6.0|^7.0"
+                "symfony/process": "^5.1|^6.0|^7.0"
             },
             "require-dev": {
                 "mikey179/vfsstream": "^1.6.11",
@@ -64,9 +64,9 @@
             ],
             "support": {
                 "issues": "https://github.com/norkunas/youtube-dl-php/issues",
-                "source": "https://github.com/norkunas/youtube-dl-php/tree/v2.8.1"
+                "source": "https://github.com/norkunas/youtube-dl-php/tree/v2.9.0"
             },
-            "time": "2024-11-20T10:16:01+00:00"
+            "time": "2024-12-09T04:50:15+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -87,12 +87,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -203,16 +203,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v7.2.0",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "e88a66c3997859532bc2ddd6dd8f35aba2711744"
+                "reference": "62d1a43796ca3fea3f83a8470dfe63a4af3bc588"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/e88a66c3997859532bc2ddd6dd8f35aba2711744",
-                "reference": "e88a66c3997859532bc2ddd6dd8f35aba2711744",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/62d1a43796ca3fea3f83a8470dfe63a4af3bc588",
+                "reference": "62d1a43796ca3fea3f83a8470dfe63a4af3bc588",
                 "shasum": ""
             },
             "require": {
@@ -261,7 +261,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v7.2.0"
+                "source": "https://github.com/symfony/http-foundation/tree/v7.2.2"
             },
             "funding": [
                 {
@@ -277,7 +277,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-13T18:58:46+00:00"
+            "time": "2024-12-30T19:00:17+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -305,8 +305,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -384,8 +384,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -458,8 +458,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -538,8 +538,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
