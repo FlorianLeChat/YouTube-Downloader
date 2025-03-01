@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6712acd253d83d3ecdc3ecd5c096f6e",
+    "content-hash": "4bb5a783addc7e6e78877a59dfda937f",
     "packages": [
         {
             "name": "norkunas/youtube-dl-php",
-            "version": "v2.9.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/norkunas/youtube-dl-php.git",
-                "reference": "3484eb38c4ef9c97b3b1ea00f6952179702ed2d1"
+                "reference": "4c954b3b8c6b30d0c0135ec758b61a91f0ac3b6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/norkunas/youtube-dl-php/zipball/3484eb38c4ef9c97b3b1ea00f6952179702ed2d1",
-                "reference": "3484eb38c4ef9c97b3b1ea00f6952179702ed2d1",
+                "url": "https://api.github.com/repos/norkunas/youtube-dl-php/zipball/4c954b3b8c6b30d0c0135ec758b61a91f0ac3b6a",
+                "reference": "4c954b3b8c6b30d0c0135ec758b61a91f0ac3b6a",
                 "shasum": ""
             },
             "require": {
@@ -64,9 +64,9 @@
             ],
             "support": {
                 "issues": "https://github.com/norkunas/youtube-dl-php/issues",
-                "source": "https://github.com/norkunas/youtube-dl-php/tree/v2.9.0"
+                "source": "https://github.com/norkunas/youtube-dl-php/tree/v2.10.0"
             },
-            "time": "2024-12-09T04:50:15+00:00"
+            "time": "2025-02-20T17:32:37+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -596,16 +596,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v7.2.0",
+            "version": "v7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "d34b22ba9390ec19d2dd966c40aa9e8462f27a7e"
+                "reference": "d8f411ff3c7ddc4ae9166fb388d1190a2df5b5cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/d34b22ba9390ec19d2dd966c40aa9e8462f27a7e",
-                "reference": "d34b22ba9390ec19d2dd966c40aa9e8462f27a7e",
+                "url": "https://api.github.com/repos/symfony/process/zipball/d8f411ff3c7ddc4ae9166fb388d1190a2df5b5cf",
+                "reference": "d8f411ff3c7ddc4ae9166fb388d1190a2df5b5cf",
                 "shasum": ""
             },
             "require": {
@@ -637,7 +637,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v7.2.0"
+                "source": "https://github.com/symfony/process/tree/v7.2.4"
             },
             "funding": [
                 {
@@ -653,7 +653,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-06T14:24:19+00:00"
+            "time": "2025-02-05T08:33:46+00:00"
         }
     ],
     "packages-dev": [],
@@ -666,5 +666,5 @@
         "php": ">=8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
