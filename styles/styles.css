@@ -42,20 +42,20 @@ a[download]
 
 /* Animated GitHub repository icon */
 /* Source: https://github.com/tholman/github-corners/blob/786d845dbea7f36c1e6c82c59b30dfa4d2d31f23/css/corner.css */
-body > a
+body > a:first-of-type
 {
 	inset: 0 0 auto auto;
 	position: fixed;
 	clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 
-body > a svg
+body > a:first-of-type svg
 {
 	fill: #151513;
 	color: white;
 }
 
-body > a:hover path:nth-of-type(2)
+body > a:first-of-type:hover path:nth-of-type(2)
 {
     animation: octocat-wave 560ms ease-in-out;
 }

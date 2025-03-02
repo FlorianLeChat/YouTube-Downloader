@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-	require(__DIR__ . "/vendor/autoload.php");
-	require(__DIR__ . "/config.php");
+	require_once __DIR__ . "/vendor/autoload.php";
+	require_once __DIR__ . "/config.php";
 
 	use YoutubeDl\Options;
 	use YoutubeDl\YoutubeDl;
@@ -27,7 +27,7 @@
 
 		preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videoUrl, $matches);
 
-		if (count($matches) > 0)
+		if (!empty($matches[1]))
 		{
 			// Return of the first result only.
 			$videoId = $matches[1];
@@ -138,7 +138,7 @@
 					<?php
 						foreach (AVAILABLE_VIDEO_FORMATS as $key => $value)
 						{
-							echo("<option value=\"" . $key . "\">$value</option>");
+							echo "<option value=\"" . $key . "\">$value</option>";
 						}
 					?>
 				</select>
@@ -148,7 +148,7 @@
 					<?php
 						foreach (AVAILABLE_AUDIO_FORMATS as $key => $value)
 						{
-							echo("<option value=\"" . $key . "\">$value</option>");
+							echo "<option value=\"" . $key . "\">$value</option>";
 						}
 					?>
 				</select>
@@ -160,7 +160,7 @@
 					<?php
 						foreach (AVAILABLE_RECODE_FORMATS as $key => $value)
 						{
-							echo("<option value=\"" . $key . "\">$value</option>");
+							echo "<option value=\"" . $key . "\">$value</option>";
 						}
 					?>
 				</select>
@@ -186,20 +186,20 @@
 				{
 					if ($progression === 0)
 					{
-						echo("<h3>⏳ Download progress ⏳</h3>");
+						echo "<h3>⏳ Download progress ⏳</h3>";
 					}
 
 					$percentage = ceil(str_replace("%", "", $percentage) / 10);
 
 					if ($progression !== $percentage)
 					{
-						echo(str_repeat("⬛", $percentage - $progression));
+						echo str_repeat("⬛", $percentage - $progression);
 
 						$progression = $percentage;
 
 						if ($progression == 10)
 						{
-							echo("<br />");
+							echo "<br />";
 						}
 					}
 
