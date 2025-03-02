@@ -21,3 +21,6 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # Change current user to www-data
 USER www-data
+
+# Make the entrypoint script executable
+RUN chmod +x ./docker/scripts/entrypoint.sh
