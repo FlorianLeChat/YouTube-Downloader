@@ -16,6 +16,9 @@ RUN install-php-extensions zip @composer
 # Set the working directory to the website files
 WORKDIR /var/www/html
 
+# Copy all files to the working directory
+COPY --chown=www-data:www-data . .
+
 # Use the default development PHP configuration
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
@@ -23,4 +26,4 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 USER www-data
 
 # Make the entrypoint script executable
-RUN chmod +x ./docker/scripts/entrypoint.sh
+RUN chmod +x ./docker/scripts/development/entrypoint.sh

@@ -4,9 +4,14 @@ services:
     # https://github.com/FlorianLeChat/YouTube-Downloader
     php:
         image: youtube-downloader
-        volumes:
-            - .:/var/www/html
         command: ./docker/scripts/development/entrypoint.sh
+        develop:
+            watch:
+                - path: .
+                  action: sync
+                  target: /var/www/html
+                - path: composer.lock
+                  action: rebuild
         healthcheck:
             test: curl -f http://localhost
             retries: 3
