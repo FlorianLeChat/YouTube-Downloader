@@ -10,6 +10,8 @@ services:
                 - path: .
                   action: sync
                   target: /var/www/html
+                  ignore:
+                    - vendor/
                 - path: composer.lock
                   action: rebuild
         healthcheck:
