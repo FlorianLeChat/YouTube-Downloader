@@ -22,9 +22,9 @@ COPY --chown=www-data:www-data . .
 # Use the default production PHP configuration with some modifications
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
 	# Cache a filesystem path to real path mapping for 10 minutes
-	sed -i "s/^;realpath_cache_ttl=120/realpath_cache_ttl=600/g" "$PHP_INI_DIR/php.ini" && \
+	sed -i "s/;realpath_cache_ttl = 120/realpath_cache_ttl = 600/g" "$PHP_INI_DIR/php.ini" && \
 	# Don't expose PHP version to HTTP response headers
-	sed -i "s/expose_php=On/expose_php=Off/g" "$PHP_INI_DIR/php.ini" && \
+	sed -i "s/expose_php = On/expose_php = Off/g" "$PHP_INI_DIR/php.ini" && \
 	# Increase default OPcache settings to improve performance
 	sed -i "s/;opcache.revalidate_freq=2/opcache.revalidate_freq=60/g" "$PHP_INI_DIR/php.ini" && \
 	sed -i "s/;opcache.validate_timestamps=1/opcache.validate_timestamps=0/g" "$PHP_INI_DIR/php.ini" && \
