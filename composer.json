@@ -16,8 +16,8 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
-        "symfony/process": "7.2.*",
-        "symfony/http-foundation": "7.2.*",
+        "symfony/process": "7.3.*",
+        "symfony/http-foundation": "7.3.*",
         "norkunas/youtube-dl-php": "2.10.*"
     }
 }
