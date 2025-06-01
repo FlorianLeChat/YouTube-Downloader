@@ -11,7 +11,7 @@ Ce petit site Internet permet de fournir une interface simple et fonctionnelle a
 > [!WARNING]
 > Le déploiement en environnement de production (**avec ou sans Docker**) nécessite un serveur Web déjà configuré comme [Nginx](https://nginx.org/en/), [Apache](https://httpd.apache.org/) ou [Caddy](https://caddyserver.com/) pour servir les scripts PHP.
 
-- Installer [PHP LTS](https://www.php.net/downloads.php) (>8.1 ou plus) ;
+- Installer [PHP LTS](https://www.php.net/downloads.php) (>8.2 ou plus) ;
 - Installer [Python 3](https://www.python.org/downloads/), [PIP](https://pypi.org/project/pip/), [FFmpeg](https://www.ffmpeg.org/download.html) et [YouTube Downloader](https://github.com/yt-dlp/yt-dlp/wiki/Installation) (YT-DLP) ;
 - Installer les extensions PHP additionnelles suivantes : `zip`, `opcache` ;
 - Installer les dépendances du projet avec la commande `composer install` ;
@@ -34,7 +34,7 @@ This simple website provides a convenient and functional interface for people lo
 > [!WARNING]
 > Deployment in a production environment (**with or without Docker**) requires a pre-configured web server such as [Nginx](https://nginx.org/en/), [Apache](https://httpd.apache.org/), or [Caddy](https://caddyserver.com/) to serve PHP scripts.
 
-- Install [PHP LTS](https://www.php.net/downloads.php) (>8.1 or higher) ;
+- Install [PHP LTS](https://www.php.net/downloads.php) (>8.2 or higher) ;
 - Install [Python 3](https://www.python.org/downloads/), [PIP](https://pypi.org/project/pip/), [FFmpeg](https://www.ffmpeg.org/download.html) and [YouTube Downloader](https://github.com/yt-dlp/yt-dlp/wiki/Installation) (YT-DLP) ;
 - Install the following additional PHP extensions: `zip`, `opcache` ;
 - Install project dependencies using `composer install` ;
