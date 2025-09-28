@@ -5,6 +5,8 @@ services:
     php:
         image: youtube-downloader
         command: ./docker/scripts/development/entrypoint.sh
+        volumes:
+            - ./output:/var/www/html/output
         develop:
             watch:
                 - path: .
