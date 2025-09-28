@@ -5,7 +5,7 @@
 FROM php:fpm-alpine
 
 # Install required dependencies
-RUN apk add --no-cache ffmpeg py3-pip python3 && \
+RUN apk add --no-cache ffmpeg py3-mutagen py3-pip python3 && \
 	python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 # Install some PHP extensions

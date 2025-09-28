@@ -220,12 +220,14 @@
 						->format($extractAudio ? null : ($videoFormat . "[filesize<$maxFileSize]"))
 						->output(OUTPUT_FORMAT)
 						->noPlaylist(true)
+						->addMetadata(true)
 						->audioFormat($audioFormat)
 						->recodeVideo($recodeVideo)
 						->maxFileSize(MAX_FILE_SIZE)
 						->extractAudio($extractAudio)
 						->audioQuality($audioQuality)
 						->downloadPath(OUTPUT_FOLDER . "/temp")
+						->embedThumbnail(true)
 				);
 
 				foreach ($download_stack->getVideos() as $video)

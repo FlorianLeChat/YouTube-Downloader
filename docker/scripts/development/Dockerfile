@@ -5,7 +5,7 @@
 FROM php:apache
 
 # Install required dependencies
-RUN apt update && apt install python3 python3-pip ffmpeg -y && apt clean && \
+RUN apt update && apt install python3 python3-pip python3-mutagen ffmpeg -y && apt clean && \
 	python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 # Install some PHP extensions
