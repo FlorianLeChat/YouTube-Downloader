@@ -13,6 +13,7 @@ Ce petit site Internet permet de fournir une interface simple et fonctionnelle a
 
 - Installer [PHP LTS](https://www.php.net/downloads.php) (>8.2 ou plus) ;
 - Installer [Python 3](https://www.python.org/downloads/), [PIP](https://pypi.org/project/pip/), [FFmpeg](https://www.ffmpeg.org/download.html) et [YouTube Downloader](https://github.com/yt-dlp/yt-dlp/wiki/Installation) (YT-DLP) ;
+- Installer le module `mutagen` de Python avec la commande `pip install mutagen` ;
 - Installer les extensions PHP additionnelles suivantes : `zip`, `opcache` ;
 - Installer les dépendances du projet avec la commande `composer install` ;
 - Utiliser un serveur Web pour servir les scripts PHP et les fichiers statiques.
@@ -36,6 +37,7 @@ This simple website provides a convenient and functional interface for people lo
 
 - Install [PHP LTS](https://www.php.net/downloads.php) (>8.2 or higher) ;
 - Install [Python 3](https://www.python.org/downloads/), [PIP](https://pypi.org/project/pip/), [FFmpeg](https://www.ffmpeg.org/download.html) and [YouTube Downloader](https://github.com/yt-dlp/yt-dlp/wiki/Installation) (YT-DLP) ;
+- Install the `mutagen` Python module with the command `pip install mutagen` ;
 - Install the following additional PHP extensions: `zip`, `opcache` ;
 - Install project dependencies using `composer install` ;
 - Use a web server to serve PHP scripts and static files.
