@@ -18,6 +18,7 @@
 	$maxFileSize = $_POST["max-filesize"] ?? MAX_FILE_SIZE;
 	$audioQuality = strval(max(0, min(9, $_POST["audio-quality"] ?? 5)));
 	$extractAudio = boolval($_POST["audio"] ?? "");
+	$outputFormat = $_POST["output-format"] ?? OUTPUT_FORMAT;
 
 	if (!empty($videoUrl))
 	{
@@ -167,6 +168,9 @@
 
 				<label for="audio-quality">Audio-only quality (0 = better, 9 = worse)</label>
 				<input type="range" id="audio-quality" name="audio-quality" min="0" max="9" value="5" step="1">
+
+				<label for="output-format">Output file name format</label>
+				<input type="text" id="output-format" name="output-format" value=<?= OUTPUT_FORMAT ?> placeholder=<?= OUTPUT_FORMAT ?> />
 
 				<label for="max-filesize">Max file size in bytes (e.g. 50K or 44.6M)<br /><strong>Values above specified server threshold will be ignored during processing.</strong></label>
 				<input type="text" id="max-filesize" name="max-filesize" value=<?= MAX_FILE_SIZE ?> placeholder=<?= MAX_FILE_SIZE ?> />
