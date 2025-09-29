@@ -2,7 +2,7 @@
 
 # Use an customized image of PHP
 # https://hub.docker.com/_/php
-FROM php:apache
+FROM php:8.4-apache
 
 # Install required dependencies
 RUN apt update && apt install python3 python3-pip python3-mutagen ffmpeg -y && apt clean && \

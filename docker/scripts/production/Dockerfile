@@ -2,7 +2,7 @@
 
 # Use an customized image of PHP
 # https://hub.docker.com/_/php
-FROM php:fpm-alpine
+FROM php:8.4-fpm-alpine
 
 # Install required dependencies
 RUN apk add --no-cache ffmpeg py3-mutagen py3-pip python3 && \
