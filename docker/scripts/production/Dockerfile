@@ -2,10 +2,10 @@
 
 # Use an customized image of PHP
 # https://hub.docker.com/_/php
-FROM php:8.4-fpm-alpine
+FROM php:8.4-fpm
 
 # Install required dependencies
-RUN apk add --no-cache ffmpeg py3-mutagen py3-pip python3 && \
+RUN apt update && apt install -y ffmpeg python3 python3-mutagen python3-pip && apt clean && \
 	python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 # Install some PHP extensions
