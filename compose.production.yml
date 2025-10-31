@@ -12,5 +12,5 @@ services:
         build:
             context: .
             dockerfile: ./docker/scripts/production/Dockerfile
-        ports:
-            - "9000:9000"
+        expose:
+            - "9000"
