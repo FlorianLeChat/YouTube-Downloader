@@ -12,5 +12,3 @@ services:
         build:
             context: .
             dockerfile: ./docker/scripts/production/Dockerfile
-        expose:
-            - "9000"
