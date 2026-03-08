@@ -3,7 +3,7 @@ stages:
     - build
 
 cache:composer:
-    image: dhi.io/composer:2
+    image: composer:2
     stage: cache
     cache:
         key:
@@ -23,7 +23,7 @@ cache:composer:
 
 build:docker:
     stage: build
-    image: dhi.io/docker:29
+    image: docker:29
     rules:
         - if: $CI_COMMIT_TAG
           when: on_success
