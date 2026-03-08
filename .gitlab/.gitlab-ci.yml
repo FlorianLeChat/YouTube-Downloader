@@ -1,0 +1,49 @@
+stages:
+    - cache
+    - build
+
+cache:composer:
+    image: dhi.io/composer:2
+    stage: cache
+    rules:
+        - changes:
+            - composer.lock
+          when: on_success
+        - when: never
+    cache:
+        key:
+            files:
+                - composer.lock
+        paths:
+            - vendor/
+            - /tmp/composer-cache
+    variables:
+        COMPOSER_CACHE_DIR: /tmp/composer-cache
+    script:
+        - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+    artifacts:
+        paths:
+            - vendor/
+        expire_in: 1 hour
+
+build:docker:
+    stage: build
+    image: dhi.io/docker:29
+    rules:
+        - if: $CI_COMMIT_TAG
+          when: on_success
+        - if: $CI_COMMIT_BRANCH
+          when: manual
+    services:
+        - docker:29-dind
+    before_script:
+        - mv $ENV_FILE .env
+        - echo "" >> .env
+        - echo "VERSION=${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}" >> .env
+    script:
+        - mv compose.production.yml compose.yml
+        - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+        - docker compose pull --ignore-buildable
+        - docker compose build
+        - docker compose push
+    allow_failure: false
