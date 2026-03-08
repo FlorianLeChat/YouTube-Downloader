@@ -11,9 +11,7 @@ cache:composer:
                 - composer.lock
         paths:
             - vendor/
-            - /tmp/composer-cache
-    variables:
-        COMPOSER_CACHE_DIR: /tmp/composer-cache
+            - ~/.composer/cache
     script:
         - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
     artifacts:
