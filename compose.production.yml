@@ -12,5 +12,8 @@ services:
             test: curl -f http://localhost
             retries: 3
             timeout: 5s
+        build:
+            target: production
+            context: .
         ports:
             - "${PORT:-80}:80"
