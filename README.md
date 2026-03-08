@@ -37,7 +37,7 @@ Ce petit site Internet permet de fournir une interface simple et fonctionnelle a
 ## In English
 
 > [!IMPORTANT]
-> Since March 2026, the project's code has been hosted on my custom GitLab instance, accessible at [this address](https://git.florian-dev.fr/floriantrayon/YouTube-Downloader). The GitHub repository is a mirror of the GitLab repository, **automatically kept up to date**.
+> Since March 2026, the project's code has been hosted on my custom GitLab instance, available at [this address](https://git.florian-dev.fr/floriantrayon/YouTube-Downloader). The GitHub repository is a mirror of the GitLab repository, **automatically kept up to date**.
 >
 > **Public contributions remain on GitHub and are welcome**; validated pull requests will then be manually transferred to GitLab to be integrated. 🙂
 
