@@ -81,7 +81,6 @@
 
 		<title>YouTube Downloader</title>
 
-		<!-- Document icons -->
 		<link rel="icon" type="image/webp" sizes="16x16" href="assets/favicons/16x16.webp" />
 		<link rel="icon" type="image/webp" sizes="32x32" href="assets/favicons/32x32.webp" />
 		<link rel="icon" type="image/webp" sizes="48x48" href="assets/favicons/48x48.webp" />
@@ -239,12 +238,10 @@
 			}
 		?>
 
-		<!-- Download link -->
 		<?php if (!empty($downloadPath)): ?>
 			📥 <a href="<?= "$downloadPath?time=" . time() ?>" download>Download doesn't start by itself? Please click here</a>.
 		<?php endif; ?>
 
-		<!-- Error output -->
 		<?php if (!empty($videoOutput)):  ?>
 			<h3>⚠️ Error output ⚠️</h3>
 
