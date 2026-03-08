@@ -1,27 +1,18 @@
 name: youtube-downloader
 
 services:
-    # https://github.com/FlorianLeChat/YouTube-Downloader
-    php:
+    server:
         image: youtube-downloader
-        command: ./docker/scripts/development/entrypoint.sh
+        command: apache2-foreground
         volumes:
-            - ./output:/var/www/html/output
-        develop:
-            watch:
-                - path: .
-                  action: sync
-                  target: /var/www/html
-                  ignore:
-                    - vendor/
-                - path: composer.lock
-                  action: rebuild
+            - .:/var/www/html
         healthcheck:
             test: curl -f http://localhost
             retries: 3
             timeout: 5s
         build:
+            target: development
             context: .
-            dockerfile: ./docker/scripts/development/Dockerfile
+            dockerfile: docker/Dockerfile
         ports:
             - "80:80"
