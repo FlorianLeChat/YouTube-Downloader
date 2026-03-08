@@ -5,11 +5,6 @@ stages:
 cache:composer:
     image: dhi.io/composer:2
     stage: cache
-    rules:
-        - changes:
-            - composer.lock
-          when: on_success
-        - when: never
     cache:
         key:
             files:
