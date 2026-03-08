@@ -1,9 +1,9 @@
-# 📺 Youtube Downloader
+# 📺 YouTube Downloader
 
-![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS-639?logo=css&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-777BB4?logo=php&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![HTML](./.gitlab/badges/html.svg)
+![CSS](./.gitlab/badges/css.svg)
+![PHP](./.gitlab/badges/php.svg)
+![Docker](./.gitlab/badges/docker.svg)
 
 ## In French
 
@@ -53,4 +53,4 @@ This simple website provides a convenient and functional interface for people lo
 > [!CAUTION]
 > The Docker image *can* also be deployed in production, but **this requires advanced knowledge to properly deploy, optimize, and secure your installation**, in order to avoid any unwanted consequences. ⚠️
 
-![image](https://user-images.githubusercontent.com/26360935/190904189-22ef0ab2-5f48-4b80-827d-2d44c0498453.png)
+![image](./.gitlab/images/youtube-downloader.png)
