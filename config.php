@@ -60,4 +60,3 @@
 		"vorbis" => "Vorbis",
 		"wav" => "WAV"
 	];
-?>

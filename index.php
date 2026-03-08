@@ -9,15 +9,14 @@
 	use Symfony\Component\Process\ExecutableFinder;
 	use Symfony\Component\HttpFoundation\StreamedResponse;
 
-	// Retrieve the URL and identifier of the video.
 	$videoId = "";
 	$videoUrl = $_POST["url"] ?? "";
-	$recodeVideo = in_array($_POST["recode-video"] ?? "", array_keys(AVAILABLE_RECODE_FORMATS)) ? $_POST["recode-video"] : null;
-	$audioFormat = in_array($_POST["audio-format"] ?? "", array_keys(AVAILABLE_AUDIO_FORMATS)) ? $_POST["audio-format"] : "best";
-	$videoFormat = in_array($_POST["video-format"] ?? "", array_keys(AVAILABLE_VIDEO_FORMATS)) ? $_POST["video-format"] : "best";
+	$recodeVideo = array_key_exists($_POST["recode-video"] ?? "", AVAILABLE_RECODE_FORMATS) ? $_POST["recode-video"] : null;
+	$audioFormat = array_key_exists($_POST["audio-format"] ?? "", AVAILABLE_AUDIO_FORMATS) ? $_POST["audio-format"] : "best";
+	$videoFormat = array_key_exists($_POST["video-format"] ?? "", AVAILABLE_VIDEO_FORMATS) ? $_POST["video-format"] : "best";
 	$maxFileSize = $_POST["max-filesize"] ?? MAX_FILE_SIZE;
-	$audioQuality = strval(max(0, min(9, $_POST["audio-quality"] ?? 5)));
-	$extractAudio = boolval($_POST["audio"] ?? "");
+	$audioQuality = (string) max(0, min(9, $_POST["audio-quality"] ?? 5));
+	$extractAudio = (bool) ($_POST["audio"] ?? "");
 	$outputFormat = $_POST["output-format"] ?? OUTPUT_FORMAT;
 
 	if (!empty($videoUrl))
@@ -30,7 +29,6 @@
 
 		if (!empty($matches[1]))
 		{
-			// Return of the first result only.
 			$videoId = $matches[1];
 		}
 		else
@@ -43,14 +41,12 @@
 	{
 		if (!file_exists(OUTPUT_FOLDER))
 		{
-			// Create the output folder if it does not exist.
 			mkdir(OUTPUT_FOLDER);
 			mkdir(OUTPUT_FOLDER . "/temp");
 		}
 
 		if (DONT_KEEP_FILES)
 		{
-			// Delete all files in the output folder before downloading a new video.
 			$files = glob(OUTPUT_FOLDER . "/*");
 
 			foreach ($files as $file)
@@ -69,7 +65,7 @@
 		$executablePath = $downloaderPath->find("youtube-dl", null, ["/usr/local/bin"]) ?? $downloaderPath->find("yt-dlp", null, ["/usr/local/bin"]);
 
 		$youtubeDownloader = new YoutubeDl();
-		$youtubeDownloader->setBinPath($executablePath ?? "C:/wamp64/www/YouTube-Downloader/test/yt-dlp.exe");
+		$youtubeDownloader->setBinPath($executablePath);
 
 		// Stream the download progress.
 		$response = new StreamedResponse();
@@ -78,13 +74,11 @@
 
 <html lang="en">
 	<head>
-		<!-- Document metadata -->
 		<meta charset="utf-8" />
 		<meta name="author" content="Florian Trayon" />
 		<meta name="description" content="A simple web page to download videos through YouTube-DL." />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-		<!-- Document title -->
 		<title>YouTube Downloader</title>
 
 		<!-- Document icons -->
@@ -95,12 +89,9 @@
 		<link rel="icon" type="image/webp" sizes="512x512" href="assets/favicons/512x512.webp" />
 		<link rel="apple-touch-icon" href="assets/favicons/180x180.webp" />
 
-		<!-- CSS stylesheet -->
 		<link rel="stylesheet" href="styles/styles.css" />
 	</head>
 	<body onload="document.querySelector('a[download]')?.click()">
-		<!-- Animated GitHub repository icon -->
-		<!-- Source: https://tholman.com/github-corners/ -->
 		<a href="https://github.com/FlorianLeChat/YouTube-Downloader" title="GitHub" aria-label="GitHub" target="_blank">
 			<svg width="80" height="80" viewBox="0 0 250 250" style="fill: #151513; color: #fff">
 				<path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -109,10 +100,8 @@
 			</svg>
 		</a>
 
-		<!-- Title -->
 		<h1><a href="https://github.com/FlorianLeChat/YouTube-Downloader" target="_blank">📺</a> YouTube Downloader</h1>
 
-		<!-- Submission form -->
 		<p>
 			You can download videos or extract music from them. <strong>Only videos from YouTube are supported.</strong><br />
 			The conversion time by the remote server may differ depending on the video duration and the requested download format.<br />
@@ -179,11 +168,9 @@
 			<input type="submit" value="Download" />
 		</form>
 
-		<!-- Progress bar -->
 		<?php
 			if (!empty($response))
 			{
-				// Download progression.
 				$progression = 0;
 
 				$response->setCallback(static function (?string $target = "", ?string $percentage = "") use (&$progression): void
@@ -201,7 +188,7 @@
 
 						$progression = $percentage;
 
-						if ($progression == 10)
+						if ($progression === 10)
 						{
 							echo "<br />";
 						}
