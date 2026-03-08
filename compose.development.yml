@@ -13,5 +13,6 @@ services:
         build:
             target: development
             context: .
+            dockerfile: docker/Dockerfile
         ports:
             - "80:80"
