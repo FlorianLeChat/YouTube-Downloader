@@ -38,7 +38,7 @@ build:docker:
     script:
         - mv compose.production.yml compose.yml
         - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-        - docker compose pull --ignore-buildable
+        - docker compose pull --ignore-buildable --ignore-pull-failures
         - docker compose build
         - docker compose push
     allow_failure: false
