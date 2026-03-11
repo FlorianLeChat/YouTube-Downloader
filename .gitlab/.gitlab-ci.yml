@@ -17,7 +17,7 @@ build:project:
         - echo "VERSION=${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}" >> .env
     script:
         - mv compose.production.yml compose.yml
-        - zip -r $CI_PROJECT_NAME-project.zip .env compose.yml
+        - zip -r project.zip .env compose.yml
     artifacts:
         paths:
             - .env
