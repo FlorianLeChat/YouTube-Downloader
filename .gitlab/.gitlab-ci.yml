@@ -48,13 +48,7 @@ deploy:ansible:
     variables:
         GIT_STRATEGY: none
     before_script:
-        - apk add --no-cache openssl openssh-client ansible
-        - ansible --version
-        - ansible-galaxy collection list
-        - ansible-galaxy collection install ansible.posix --upgrade
-        - ansible-galaxy collection install community.docker --upgrade
-        - ansible --version
-        - ansible-galaxy collection list
+        - apk add --no-cache openssl openssh-client ansible rsync
         - eval $(ssh-agent -s)
         - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         - mkdir -p ~/.ssh

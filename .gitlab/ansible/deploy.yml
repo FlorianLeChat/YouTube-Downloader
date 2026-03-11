@@ -35,7 +35,7 @@
                 keep_newer: true
 
         -   name: Synchronisation des fichiers
-            ansible.posix.synchronize:
+            synchronize:
                 src: "{{ application_path }}_temp/"
                 dest: "{{ application_path }}/"
                 delete: true
