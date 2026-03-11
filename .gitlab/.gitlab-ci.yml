@@ -30,6 +30,8 @@ build:project:
 build:docker:
     stage: build
     image: docker:29
+    needs:
+        - build:project
     services:
         - docker:29-dind
     variables:
@@ -39,8 +41,6 @@ build:docker:
         - docker compose pull --ignore-buildable --ignore-pull-failures
         - docker compose build
         - docker compose push
-    dependencies:
-        - build:project
 
 deploy:ansible:
     stage: deploy
