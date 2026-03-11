@@ -1,8 +1,16 @@
 ---
 -   hosts: proxmox
     vars:
-        application_path: "/var/www/html/florian-dev.fr/youtube"
+        application_path: "/var/www/florian-dev.fr/youtube"
     tasks:
+        -   name: Installation des dépendances système
+            apt:
+                name:
+                    - zip
+                    - rsync
+                state: present
+                update_cache: true
+
         -   name: Création du répertoire d'installation
             file:
                 path: "{{ application_path }}"
@@ -27,7 +35,7 @@
                 keep_newer: true
 
         -   name: Synchronisation des fichiers
-            synchronize:
+            ansible.posix.synchronize:
                 src: "{{ application_path }}_temp/"
                 dest: "{{ application_path }}/"
                 delete: true
