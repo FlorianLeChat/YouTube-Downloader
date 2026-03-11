@@ -34,12 +34,8 @@
                 remote_src: false
                 keep_newer: true
 
-        -   name: Synchronisation des fichiers
-            synchronize:
-                src: "{{ application_path }}_temp/"
-                dest: "{{ application_path }}/"
-                delete: true
-                recursive: true
+        -   name: Synchronisation des fichiers avec suppression des fichiers obsolètes
+            command: rsync -a --delete "{{ application_path }}_temp/" "{{ application_path }}/"
 
         -   name: Application des permissions sur le répertoire d'installation
             file:

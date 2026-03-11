@@ -48,7 +48,7 @@ deploy:ansible:
     variables:
         GIT_STRATEGY: none
     before_script:
-        - apk add --no-cache openssl openssh-client ansible rsync
+        - apk add --no-cache openssl openssh-client ansible
         - eval $(ssh-agent -s)
         - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         - mkdir -p ~/.ssh
