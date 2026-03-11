@@ -53,7 +53,7 @@ deploy:ansible:
         - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
-        - ssh-keyscan -H proxmox >> ~/.ssh/known_hosts
+        - ssh-keyscan -H 192.168.1.22 >> ~/.ssh/known_hosts
         - echo $ANSIBLE_VAULT_PASSWORD > .vault_password.txt
     script:
         - ansible-playbook -i .gitlab/ansible/hosts.yml --vault-password-file .vault_password.txt .gitlab/ansible/deploy.yml
