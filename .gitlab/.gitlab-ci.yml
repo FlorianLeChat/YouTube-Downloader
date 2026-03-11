@@ -47,13 +47,13 @@ deploy:ansible:
     image: alpine:3
     variables:
         GIT_STRATEGY: none
-        ANSIBLE_HOST_KEY_CHECKING: false
     before_script:
         - apk add --no-cache openssl openssh-client ansible
         - eval $(ssh-agent -s)
         - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         - mkdir -p ~/.ssh
         - chmod 700 ~/.ssh
+        - ssh-keyscan -H proxmox >> ~/.ssh/known_hosts
         - echo $ANSIBLE_VAULT_PASSWORD > .vault_password.txt
     script:
         - ansible-playbook -i .gitlab/ansible/hosts.yml --vault-password-file .vault_password.txt .gitlab/ansible/deploy.yml
