@@ -5,16 +5,27 @@ services:
         user: "${UID:-1000}:${GID:-1000}"
         image: registry.florian-dev.fr:443/floriantrayon/youtube-downloader:${VERSION:-latest}
         command: apache2-foreground
-        restart: unless-stopped
+        restart: on-failure:3
+        cap_drop:
+            - ALL
         volumes:
             - ./output:/var/www/html/output
+        security_opt:
+            - apparmor=docker-default
+            - no-new-privileges=true
         healthcheck:
-            test: curl -f http://localhost
+            test: curl -f http://localhost:8080/
             retries: 3
             timeout: 5s
+        deploy:
+            resources:
+                limits:
+                    pids: 16
+                    cpus: "1"
+                    memory: 128M
         build:
             target: production
             context: .
             dockerfile: docker/Dockerfile
         ports:
-            - "${PORT:-80}:80"
+            - "${PORT:-80}:8080"
