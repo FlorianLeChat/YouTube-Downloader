@@ -1,7 +1,7 @@
 ---
 -   hosts: proxmox
     vars:
-        application_path: "/var/www/florian-dev.fr/youtube"
+        application_path: "/var/www/internal.florian-dev.fr/youtube"
     tasks:
         -   name: Installation des dépendances système
             apt:
