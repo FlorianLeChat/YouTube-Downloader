@@ -28,4 +28,4 @@ services:
             context: .
             dockerfile: docker/Dockerfile
         ports:
-            - "${PORT:-80}:8080"
+            - "${PORT:-8080}:8080"

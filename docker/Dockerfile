@@ -29,6 +29,7 @@ COPY composer.json composer.lock ./
 
 RUN a2enmod rewrite cache cache_disk && \
     a2dissite 000-default.conf && \
+    sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
     install-php-extensions zip opcache @composer && \
     composer install --no-dev --optimize-autoloader
 
