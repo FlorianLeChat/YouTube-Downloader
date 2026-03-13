@@ -2,7 +2,10 @@
 
 FROM php:8.2-apache AS base
 
-RUN apt update && apt install -y ffmpeg python3 python3-mutagen python3-pip && apt clean && \
+RUN apt update && \
+    apt install -y ffmpeg python3 python3-mutagen python3-pip && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/* && \
     python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
@@ -11,7 +14,7 @@ WORKDIR /var/www/html
 
 FROM base AS development
 
-COPY . .
+COPY --chown=www-data:www-data . .
 
 RUN install-php-extensions zip xdebug @composer && \
     mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
@@ -23,9 +26,7 @@ RUN install-php-extensions zip xdebug @composer && \
 
 FROM base AS production
 
-WORKDIR /var/www/html
-
-COPY composer.json composer.lock ./
+COPY --chown=www-data:www-data composer.json composer.lock ./
 
 RUN a2enmod rewrite cache cache_disk && \
     a2dissite 000-default.conf && \
@@ -33,8 +34,7 @@ RUN a2enmod rewrite cache cache_disk && \
     install-php-extensions zip opcache @composer && \
     composer install --no-dev --optimize-autoloader
 
-COPY . .
-COPY docker/vhost-default.conf /etc/apache2/sites-available/
+COPY --chown=www-data:www-data . .
 
 RUN a2ensite vhost-default.conf && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \

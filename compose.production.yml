@@ -5,7 +5,7 @@ services:
         user: "${UID:-1000}:${GID:-1000}"
         image: registry.florian-dev.fr:443/floriantrayon/youtube-downloader:${VERSION:-latest}
         command: apache2-foreground
-        restart: on-failure:3
+        restart: unless-stopped
         cap_drop:
             - ALL
         volumes:
@@ -16,6 +16,7 @@ services:
             test: curl -f http://localhost:8080/
             retries: 3
             timeout: 5s
+            start_period: 30s
         deploy:
             resources:
                 limits:
