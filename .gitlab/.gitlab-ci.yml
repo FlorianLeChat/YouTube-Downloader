@@ -38,7 +38,6 @@ build:docker:
         DOCKER_TLS_CERTDIR: "/certs"
     script:
         - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-        - docker compose pull --ignore-buildable --ignore-pull-failures
         - docker compose build
         - docker compose push
 
