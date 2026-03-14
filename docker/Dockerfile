@@ -34,6 +34,7 @@ RUN a2enmod rewrite cache cache_disk && \
     install-php-extensions zip opcache @composer && \
     composer install --no-dev --optimize-autoloader
 
+COPY docker/configuration/vhost-default.conf /etc/apache2/sites-available/
 COPY --chown=www-data:www-data . .
 
 RUN a2ensite vhost-default.conf && \
