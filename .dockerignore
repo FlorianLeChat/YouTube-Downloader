@@ -2,11 +2,11 @@
 **/output
 **/vendor
 **/*.md
+**/*.zip
 **/.dockerignore
 **/.editorconfig
 **/.gitattributes
 **/.gitignore
 **/Dockerfile
 **/compose.*
-**/CODEOWNERS
 **/LICENSE
