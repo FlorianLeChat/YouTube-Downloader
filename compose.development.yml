@@ -6,10 +6,13 @@ services:
         command: apache2-foreground
         volumes:
             - .:/var/www/html
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         healthcheck:
             test: curl -f http://localhost
             retries: 3
             timeout: 5s
+            start_period: 30s
         build:
             target: development
             context: .
