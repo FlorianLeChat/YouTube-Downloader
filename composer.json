@@ -1,23 +1,28 @@
 {
-    "name": "florianlechat/youtube-downloader",
-    "type": "project",
-    "homepage": "https://github.com/FlorianLeChat/YouTube-Downloader",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Florian Trayon",
-            "homepage": "https://github.com/FlorianLeChat",
-            "role": "Developer"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/FlorianLeChat/YouTube-Downloader/issues"
-    },
-    "prefer-stable": true,
-    "require": {
-        "php": ">=8.2",
-        "symfony/process": "7.3.*",
-        "symfony/http-foundation": "7.3.*",
-        "norkunas/youtube-dl-php": "2.12.*"
-    }
+	"name": "florianlechat/youtube-downloader",
+	"type": "project",
+	"homepage": "https://github.com/FlorianLeChat/YouTube-Downloader",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Florian Trayon",
+			"homepage": "https://github.com/FlorianLeChat",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/FlorianLeChat/YouTube-Downloader/issues"
+	},
+	"prefer-stable": true,
+	"require": {
+		"php": ">=8.2",
+		"symfony/process": "7.4.*",
+		"symfony/http-foundation": "7.4.*",
+		"norkunas/youtube-dl-php": "2.13.*"
+	},
+	"config": {
+		"platform": {
+			"php": "8.2"
+		}
+	}
 }
