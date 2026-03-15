@@ -6,9 +6,12 @@ RUN apt update && \
     apt install -y ffmpeg python3 python3-mutagen python3-pip && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
-    python3 -m pip install --break-system-packages https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+	python3 -m pip install --no-cache-dir --break-system-packages \
+		https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz && \
 
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+ADD --chmod=0755 \
+    https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
+    /usr/local/bin/
 
 WORKDIR /var/www/html
 
@@ -26,13 +29,20 @@ RUN install-php-extensions zip xdebug @composer && \
 
 FROM base AS production
 
-COPY --chown=www-data:www-data composer.json composer.lock ./
-
 RUN a2enmod rewrite cache cache_disk && \
     a2dissite 000-default.conf && \
     sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
-    install-php-extensions zip opcache @composer && \
-    composer install --no-dev --optimize-autoloader --no-interaction
+    install-php-extensions zip opcache @composer
+
+COPY --chown=www-data:www-data composer.json composer.lock ./
+
+RUN composer install \
+    --no-dev \
+    --prefer-dist \
+    --no-interaction \
+    --no-progress \
+    --optimize-autoloader \
+    --no-scripts
 
 COPY docker/configuration/vhost-default.conf /etc/apache2/sites-available/
 COPY --chown=www-data:www-data . .
