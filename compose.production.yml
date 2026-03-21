@@ -20,7 +20,7 @@ services:
         deploy:
             resources:
                 limits:
-                    pids: 16
+                    pids: 64
                     cpus: "1"
                     memory: 128M
         build:
