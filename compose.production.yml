@@ -2,6 +2,7 @@ name: youtube-downloader
 
 services:
     server:
+        init: true
         user: "${UID:-1000}:${GID:-1000}"
         image: registry.florian-dev.fr:443/floriantrayon/youtube-downloader:${VERSION:-latest}
         command: apache2-foreground
