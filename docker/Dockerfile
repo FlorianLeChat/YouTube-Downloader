@@ -7,7 +7,7 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     python3 -m pip install --no-cache-dir --break-system-packages \
-      https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+        https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 
 ADD --chmod=0755 \
     https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
