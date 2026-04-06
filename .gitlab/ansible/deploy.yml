@@ -50,10 +50,16 @@
                 path: "{{ application_path }}_temp"
                 state: absent
 
-        -   name: Redémarrage du conteneur Docker
+        -   name: Arrêt du conteneur Docker et suppression des ressources associées
+            community.docker.docker_compose_v2:
+                remove_orphans: true
+                remove_images: all
+                project_src: "{{ application_path }}"
+                state: absent
+
+        -   name: Démarrage du conteneur Docker
             community.docker.docker_compose_v2:
                 renew_anon_volumes: true
-                remove_orphans: true
                 project_src: "{{ application_path }}"
                 recreate: always
                 build: never
