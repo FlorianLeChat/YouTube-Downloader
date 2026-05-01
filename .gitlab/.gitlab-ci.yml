@@ -88,6 +88,9 @@ analyze:docker-container:
     stage: analyze
     image: $CI_TEMPLATE_REGISTRY_HOST/security-products/container-scanning
     script:
+        - echo $CI_COMMIT_TAG
+        - echo $CI_COMMIT_SHORT_SHA
+        - echo ${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}
         - gtcs scan
     variables:
         CS_DOCKERFILE_PATH: docker/Dockerfile
