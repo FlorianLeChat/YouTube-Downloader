@@ -1,5 +1,6 @@
 stages:
     - build
+    - analyze
     - deploy
 
 build:project:
@@ -40,6 +41,62 @@ build:docker:
         - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
         - docker compose build
         - docker compose push
+
+analyze:sast:
+    stage: analyze
+    image: $CI_TEMPLATE_REGISTRY_HOST/security-products/semgrep
+    script:
+        - /analyzer run
+    artifacts:
+        access: developer
+        paths:
+            - gl-sast-report.json
+        reports:
+            sast: gl-sast-report.json
+        expire_in: 1 hour
+    dependencies: []
+
+analyze:iac:
+    stage: analyze
+    image: $CI_TEMPLATE_REGISTRY_HOST/security-products/kics
+    script:
+        - /analyzer run
+    artifacts:
+        access: developer
+        paths:
+            - gl-sast-report.json
+        reports:
+            sast: gl-sast-report.json
+        expire_in: 1 hour
+    dependencies: []
+
+analyze:secret-detection:
+    stage: analyze
+    image: $CI_TEMPLATE_REGISTRY_HOST/security-products/secrets
+    script:
+        - /analyzer run
+    artifacts:
+        access: developer
+        paths:
+            - gl-secret-detection-report.json
+        reports:
+            secret_detection: gl-secret-detection-report.json
+        expire_in: 1 hour
+    dependencies: []
+
+analyze:docker-container:
+    stage: analyze
+    image: $CI_TEMPLATE_REGISTRY_HOST/security-products/container-scanning
+    script:
+        - gtcs scan
+    artifacts:
+        access: developer
+        paths:
+            - gl-container-scanning-report.json
+        reports:
+            container_scanning: gl-container-scanning-report.json
+        expire_in: 1 hour
+    dependencies: []
 
 deploy:ansible:
     stage: deploy
