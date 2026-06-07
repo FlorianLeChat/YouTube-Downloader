@@ -9,7 +9,7 @@ services:
         extra_hosts:
             - "host.docker.internal:host-gateway"
         healthcheck:
-            test: curl -f http://localhost
+            test: ["CMD", "curl", "-f", "http://localhost/"]
             retries: 3
             timeout: 5s
             start_period: 30s
