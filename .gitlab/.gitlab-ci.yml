@@ -34,7 +34,7 @@ build:docker:
     needs:
         - build:project
     services:
-        - docker:29-dind
+        - docker:29-dind-rootless
     variables:
         DOCKER_TLS_CERTDIR: "/certs"
     script:
