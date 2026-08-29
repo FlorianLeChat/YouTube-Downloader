@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "faf89a9ae83364e95291362a7e0875df",
+    "content-hash": "a60808ee2a9203892bc1491b4785ef65",
     "packages": [
         {
             "name": "norkunas/youtube-dl-php",
