@@ -30,11 +30,11 @@ build:project:
 
 build:docker:
     stage: build
-    image: docker:29
+    image: docker:29.5
     needs:
         - build:project
     services:
-        - docker:29-dind-rootless
+        - docker:29.5.0-dind-rootless
     variables:
         DOCKER_TLS_CERTDIR: "/certs"
     script:
