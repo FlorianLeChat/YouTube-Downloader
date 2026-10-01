@@ -5,7 +5,7 @@ stages:
 
 build:project:
     stage: build
-    image: alpine:3
+    image: alpine:3@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
     rules:
         - if: $CI_COMMIT_TAG
           when: on_success
@@ -104,7 +104,7 @@ analyze:docker-container:
 
 deploy:ansible:
     stage: deploy
-    image: alpine:3
+    image: alpine:3@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
     variables:
         GIT_STRATEGY: none
     before_script:
