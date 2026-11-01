@@ -10,9 +10,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     python3 -m pip install --no-cache-dir --break-system-packages "yt-dlp==${YT_DLP_VERSION}"
 
-ADD --chmod=0755 \
-    https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
-    /usr/local/bin/
+COPY --from=mlocati/php-extension-installer:2@sha256:35821db0661308f64aa18483bb3af56bedc3b40090ff441ed961327d1ccbceb8 \
+    /usr/bin/install-php-extensions /usr/local/bin/
 
 WORKDIR /var/www/html
 
