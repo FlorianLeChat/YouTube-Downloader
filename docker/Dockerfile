@@ -52,12 +52,12 @@ RUN --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local
     composer dump-autoload --no-dev --no-scripts --classmap-authoritative && \
     a2ensite vhost-default.conf && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
-    sed -i \
-        -e "s/;realpath_cache_ttl = 120/realpath_cache_ttl = 600/g" \
-        -e "s/expose_php = On/expose_php = Off/g" \
-        -e "s/;opcache.revalidate_freq=2/opcache.revalidate_freq=60/g" \
-        -e "s/;opcache.validate_timestamps=1/opcache.validate_timestamps=0/g" \
-        -e "s/;opcache.memory_consumption=128/opcache.memory_consumption=256/g" \
-        -e "s/;opcache.interned_strings_buffer=8/opcache.interned_strings_buffer=16/g" \
-        -e "s/;opcache.max_accelerated_files=10000/opcache.max_accelerated_files=20000/g" \
-        "$PHP_INI_DIR/php.ini"
+    printf '%s\n' \
+      'realpath_cache_ttl = 600' \
+      'expose_php = Off' \
+      'opcache.revalidate_freq = 60' \
+      'opcache.validate_timestamps = 0' \
+      'opcache.memory_consumption = 256' \
+      'opcache.interned_strings_buffer = 16' \
+      'opcache.max_accelerated_files = 20000' \
+    > "$PHP_INI_DIR/conf.d/zz-custom.ini"
