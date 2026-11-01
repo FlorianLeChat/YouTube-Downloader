@@ -34,7 +34,7 @@ RUN a2enmod rewrite cache cache_disk && \
     sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
     install-php-extensions zip opcache
 
-COPY --chown=www-data:www-data composer.json composer.lock ./
+COPY composer.json composer.lock ./
 
 RUN --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
     --mount=type=cache,target=/tmp/composer-cache \
@@ -47,7 +47,7 @@ RUN --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local
         --no-autoloader
 
 COPY docker/configuration/vhost-default.conf /etc/apache2/sites-available/
-COPY --chown=www-data:www-data . .
+COPY . .
 
 RUN --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
     composer dump-autoload --no-dev --no-scripts --classmap-authoritative && \
