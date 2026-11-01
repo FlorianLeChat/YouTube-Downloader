@@ -40,13 +40,14 @@ RUN composer install \
     --prefer-dist \
     --no-interaction \
     --no-progress \
-    --optimize-autoloader \
-    --no-scripts
+    --no-scripts \
+    --no-autoloader
 
 COPY docker/configuration/vhost-default.conf /etc/apache2/sites-available/
 COPY --chown=www-data:www-data . .
 
-RUN a2ensite vhost-default.conf && \
+RUN composer dump-autoload --no-dev --no-scripts --classmap-authoritative && \
+    a2ensite vhost-default.conf && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
     sed -i \
         -e "s/;realpath_cache_ttl = 120/realpath_cache_ttl = 600/g" \
