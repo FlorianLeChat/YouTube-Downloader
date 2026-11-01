@@ -19,11 +19,13 @@ FROM base AS development
 
 RUN install-php-extensions zip xdebug @composer && \
     mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" && \
-    echo "xdebug.mode=develop,debug" >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini" && \
-    echo "xdebug.client_port=9003" >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini" && \
-    echo "xdebug.log=/tmp/xdebug.log" >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini" && \
-    echo "xdebug.start_with_request=yes" >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini" && \
-    echo "xdebug.client_host=host.docker.internal" >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini"
+    printf '%s\n' \
+      'xdebug.mode = develop,debug' \
+      'xdebug.client_port = 9003' \
+      'xdebug.log = /tmp/xdebug.log' \
+      'xdebug.start_with_request = yes' \
+      'xdebug.client_host = host.docker.internal' \
+    > "$PHP_INI_DIR/conf.d/zz-xdebug.ini"
 
 COPY --chown=www-data:www-data . .
 
