@@ -2,11 +2,13 @@
 
 FROM php:8.2-apache@sha256:89e5f7bde208a146519d12100c11e71a1d0119a10703cfc454d1bdca274147ec AS base
 
+# renovate: datasource=pypi depName=yt-dlp
+ARG YT_DLP_VERSION=2026.10.26
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg python3 python3-mutagen python3-pip && \
     rm -rf /var/lib/apt/lists/* && \
-    python3 -m pip install --no-cache-dir --break-system-packages \
-        https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+    python3 -m pip install --no-cache-dir --break-system-packages "yt-dlp==${YT_DLP_VERSION}"
 
 ADD --chmod=0755 \
     https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
