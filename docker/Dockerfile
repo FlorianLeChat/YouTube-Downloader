@@ -2,9 +2,8 @@
 
 FROM php:8.2-apache@sha256:89e5f7bde208a146519d12100c11e71a1d0119a10703cfc454d1bdca274147ec AS base
 
-RUN apt update && \
-    apt install -y ffmpeg python3 python3-mutagen python3-pip && \
-    apt clean && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ffmpeg python3 python3-mutagen python3-pip && \
     rm -rf /var/lib/apt/lists/* && \
     python3 -m pip install --no-cache-dir --break-system-packages \
         https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
