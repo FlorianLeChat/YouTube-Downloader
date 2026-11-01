@@ -29,7 +29,7 @@ COPY --chown=www-data:www-data . .
 
 FROM base AS production
 
-RUN a2enmod rewrite cache cache_disk && \
+RUN a2enmod rewrite && \
     a2dissite 000-default.conf && \
     sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
     install-php-extensions zip opcache
