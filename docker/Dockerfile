@@ -31,11 +31,12 @@ FROM base AS production
 RUN a2enmod rewrite cache cache_disk && \
     a2dissite 000-default.conf && \
     sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
-    install-php-extensions zip opcache @composer
+    install-php-extensions zip opcache
 
 COPY --chown=www-data:www-data composer.json composer.lock ./
 
-RUN --mount=type=cache,target=/tmp/composer-cache \
+RUN --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
+    --mount=type=cache,target=/tmp/composer-cache \
     COMPOSER_CACHE_DIR=/tmp/composer-cache composer install \
         --no-dev \
         --prefer-dist \
@@ -47,7 +48,8 @@ RUN --mount=type=cache,target=/tmp/composer-cache \
 COPY docker/configuration/vhost-default.conf /etc/apache2/sites-available/
 COPY --chown=www-data:www-data . .
 
-RUN composer dump-autoload --no-dev --no-scripts --classmap-authoritative && \
+RUN --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local/bin/composer \
+    composer dump-autoload --no-dev --no-scripts --classmap-authoritative && \
     a2ensite vhost-default.conf && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
     sed -i \
