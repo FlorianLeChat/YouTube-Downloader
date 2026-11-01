@@ -55,7 +55,6 @@ RUN --mount=type=bind,from=composer:2,source=/usr/bin/composer,target=/usr/local
     printf '%s\n' \
       'realpath_cache_ttl = 600' \
       'expose_php = Off' \
-      'opcache.revalidate_freq = 60' \
       'opcache.validate_timestamps = 0' \
       'opcache.memory_consumption = 256' \
       'opcache.interned_strings_buffer = 16' \
