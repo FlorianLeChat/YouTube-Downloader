@@ -35,13 +35,14 @@ RUN a2enmod rewrite cache cache_disk && \
 
 COPY --chown=www-data:www-data composer.json composer.lock ./
 
-RUN composer install \
-    --no-dev \
-    --prefer-dist \
-    --no-interaction \
-    --no-progress \
-    --no-scripts \
-    --no-autoloader
+RUN --mount=type=cache,target=/tmp/composer-cache \
+    COMPOSER_CACHE_DIR=/tmp/composer-cache composer install \
+        --no-dev \
+        --prefer-dist \
+        --no-interaction \
+        --no-progress \
+        --no-scripts \
+        --no-autoloader
 
 COPY docker/configuration/vhost-default.conf /etc/apache2/sites-available/
 COPY --chown=www-data:www-data . .
